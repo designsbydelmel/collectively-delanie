@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Request a custom handcrafted project from Designs by Delanie.">
+  <title>Custom Order | Collectively Delanie</title>
+  <link rel="icon" href="assets/collectively-delanie-logo.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="order-page">
+  <header class="site-header">
+    <a class="site-logo" href="index.html" aria-label="Collectively Delanie home">
+      <img src="assets/collectively-delanie-logo.png" alt="Collectively Delanie">
+    </a>
+
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+      <span class="sr-only">Open navigation</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#brands">The Collective</a>
+      <a href="custom-order.html" aria-current="page">Custom Order</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="order-hero">
+      <div>
+        <p class="eyebrow">Designs by Delanie</p>
+        <h1>Let's create something <span class="script-accent">special.</span></h1>
+        <p>Tell me about your vision, and I will follow up with a personalized quote and estimated turnaround time.</p>
+      </div>
+      <img src="assets/designs-by-delanie.png" alt="Designs by Delanie">
+    </section>
+
+    <section class="order-layout">
+      <aside class="order-intro">
+        <p class="section-kicker">A note from Delanie</p>
+        <h2>Hi there, and welcome!</h2>
+        <p>I'm Delanie, the owner and creator behind Designs by Delanie. I'm so grateful you've chosen me to help bring your vision to life.</p>
+        <p>Every item I create is thoughtfully handcrafted with attention to detail, creativity, and a whole lot of love. I can't wait to make something special just for you!</p>
+        <div class="order-process">
+          <div><span>01</span><p>Share your vision</p></div>
+          <div><span>02</span><p>Receive your quote</p></div>
+          <div><span>03</span><p>Approve and create</p></div>
+        </div>
+      </aside>
+
+      <form class="custom-order-form" action="https://formsubmit.co/collectivelydelanie@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New Designs by Delanie Custom Order Request">
+        <input type="hidden" name="_next" value="https://www.collectivelydelanie.com/order-thank-you.html">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input class="honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off">
+
+        <div class="form-heading">
+          <p class="section-kicker">Custom order request</p>
+          <h2>Tell me about your project</h2>
+          <p>Fields marked with an asterisk are required.</p>
+        </div>
+
+        <fieldset>
+          <legend>Contact information</legend>
+          <div class="form-grid">
+            <label>
+              Full Name <span>*</span>
+              <input type="text" name="Full Name" autocomplete="name" required>
+            </label>
+            <label>
+              Email Address <span>*</span>
+              <input type="email" name="Email Address" autocomplete="email" required>
+            </label>
+            <label>
+              Phone Number <span>*</span>
+              <input type="tel" name="Phone Number" autocomplete="tel" required>
+            </label>
+          </div>
+
+          <div class="choice-group">
+            <p>Preferred Contact Method <span>*</span></p>
+            <div class="choice-row">
+              <label class="choice"><input type="checkbox" name="Preferred Contact Method[]" value="Email"> <span>Email</span></label>
+              <label class="choice"><input type="checkbox" name="Preferred Contact Method[]" value="Text"> <span>Text</span></label>
+              <label class="choice"><input type="checkbox" name="Preferred Contact Method[]" value="Phone Call"> <span>Phone Call</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Your project</legend>
+          <label>
+            Describe Your Project <span>*</span>
+            <small>Include colors, wording, dimensions, and inspiration.</small>
+            <textarea name="Project Description" rows="7" required></textarea>
+          </label>
+
+          <div class="form-grid form-grid-two">
+            <label>
+              When do you need this completed? <span>*</span>
+              <input type="date" name="Requested Completion Date" required>
+            </label>
+            <div class="choice-group">
+              <p>Rush Order? <span>*</span></p>
+              <div class="choice-row">
+                <label class="choice"><input type="radio" name="Rush Order" value="Yes - additional fees may apply" required> <span>Yes</span></label>
+                <label class="choice"><input type="radio" name="Rush Order" value="No" required> <span>No</span></label>
+              </div>
+              <small>Additional fees may apply.</small>
+            </div>
+          </div>
+
+          <label>
+            Inspiration Photos, Color Palettes, or Links
+            <small>Paste shareable Google Drive, Pinterest, Dropbox, or website links.</small>
+            <textarea name="Inspiration Links" rows="4"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Pricing acknowledgement</legend>
+          <p class="acknowledgement-intro">Please check each item to confirm your understanding.</p>
+          <div class="acknowledgement-list">
+            <label class="choice"><input type="checkbox" name="Acknowledgement[]" value="I understand a quote will be provided before work begins." required> <span>I understand a quote will be provided before work begins.</span></label>
+            <label class="choice"><input type="checkbox" name="Acknowledgement[]" value="Design fees may apply for custom artwork." required> <span>Design fees may apply for custom artwork.</span></label>
+            <label class="choice"><input type="checkbox" name="Acknowledgement[]" value="No more than 5 revisions for one custom order." required> <span>No more than 5 revisions for one custom order.</span></label>
+            <label class="choice"><input type="checkbox" name="Acknowledgement[]" value="Final production begins once payment is received." required> <span>Final production begins once payment is received.</span></label>
+          </div>
+        </fieldset>
+
+        <button class="button button-primary submit-order" type="submit">Submit Custom Order Request</button>
+        <p class="submission-note">Submitting this form does not create a payment obligation. You will receive a quote before work begins.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <a class="site-logo footer-logo" href="index.html">
+      <img src="assets/collectively-delanie-logo.png" alt="Collectively Delanie">
+    </a>
+    <p>Creativity, wellness, and everything in between.</p>
+    <p class="copyright">© <span id="year"></span> Collectively Delanie</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
