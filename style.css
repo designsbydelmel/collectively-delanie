@@ -651,19 +651,35 @@ footer p {
   background: var(--cream);
 }
 
+.order-page img {
+  max-width: 100%;
+  height: auto;
+}
+
 .order-hero {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  align-items: center;
-  gap: 40px;
-  padding: 80px clamp(24px, 8vw, 130px);
+  display: block;
+  padding: 64px 24px 72px;
   background: linear-gradient(135deg, #fffdf9, #eadcdf);
+  text-align: center;
+}
+
+.order-hero > div {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.order-brand-logo {
+  display: block;
+  width: 230px;
+  max-height: 155px;
+  margin: 0 auto 16px;
+  object-fit: contain;
 }
 
 .order-hero h1,
 .thank-you-card h1 {
-  max-width: 760px;
-  margin: 0;
+  max-width: 800px;
+  margin: 0 auto;
   font-family: var(--headline);
   font-size: clamp(56px, 7vw, 96px);
   font-weight: 400;
@@ -674,14 +690,8 @@ footer p {
 .order-hero p:last-child,
 .thank-you-card > p:not(.section-kicker) {
   max-width: 680px;
-  margin: 26px 0 0;
+  margin: 26px auto 0;
   color: var(--muted);
-}
-
-.order-hero img {
-  display: block;
-  width: min(100%, 510px);
-  margin: auto;
 }
 
 .order-layout {
@@ -1003,7 +1013,6 @@ footer p {
 
   .hero,
   .brand-card,
-  .order-hero,
   .order-layout {
     grid-template-columns: 1fr;
   }
