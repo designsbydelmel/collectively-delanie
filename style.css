@@ -863,6 +863,39 @@ footer p {
   text-align: center;
 }
 
+.font-choice-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 26px 0;
+  padding: 24px;
+  border-radius: 8px;
+  background: var(--deep-sage);
+  color: white;
+}
+
+.font-choice-panel p {
+  margin: 0;
+}
+
+.font-choice-title {
+  font-family: var(--headline);
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.font-choice-panel div p:last-child {
+  max-width: 530px;
+  margin-top: 7px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+}
+
+.font-choice-panel .button {
+  flex: 0 0 auto;
+}
+
 .file-upload input[type="file"] {
   display: block;
   width: 100%;
@@ -1199,5 +1232,10 @@ footer p {
   .form-grid {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  .font-choice-panel {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
