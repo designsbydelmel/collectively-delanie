@@ -4,6 +4,9 @@ const navLinks = document.querySelectorAll(".site-nav a");
 const year = document.getElementById("year");
 const orderForm = document.querySelector(".custom-order-form");
 const requestedDate = document.querySelector('input[name="Requested Completion Date"]');
+const photoInput = document.querySelector('input[name="Inspiration Photos"]');
+const fileStatus = document.querySelector(".file-status");
+const maxUploadBytes = 10 * 1024 * 1024;
 
 menuButton.addEventListener("click", () => {
   const isOpen = siteNav.classList.toggle("open");
@@ -34,4 +37,21 @@ if (orderForm) {
 
 if (requestedDate) {
   requestedDate.min = new Date().toISOString().split("T")[0];
+}
+
+if (photoInput && fileStatus) {
+  photoInput.addEventListener("change", () => {
+    const files = Array.from(photoInput.files);
+    const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+
+    if (totalBytes > maxUploadBytes) {
+      photoInput.value = "";
+      fileStatus.textContent = "Photos exceed the 10MB combined limit. Please choose smaller files.";
+      return;
+    }
+
+    fileStatus.textContent = files.length
+      ? `${files.length} photo${files.length === 1 ? "" : "s"} selected`
+      : "No photos selected";
+  });
 }

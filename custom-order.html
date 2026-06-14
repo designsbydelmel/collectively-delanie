@@ -49,7 +49,7 @@
         </div>
       </aside>
 
-      <form class="custom-order-form" action="https://formsubmit.co/collectivelydelanie@gmail.com" method="POST">
+      <form class="custom-order-form" action="https://formsubmit.co/collectivelydelanie@gmail.com" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="_subject" value="New Designs by Delanie Custom Order Request">
         <input type="hidden" name="_next" value="https://www.collectivelydelanie.com/order-thank-you.html">
         <input type="hidden" name="_template" value="table">
@@ -112,9 +112,16 @@
             </div>
           </div>
 
+          <label class="file-upload">
+            Add Inspiration Photos or Color Palettes
+            <small>Choose photos directly from your phone or computer. Maximum 10MB combined.</small>
+            <input type="file" name="Inspiration Photos" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" multiple>
+            <span class="file-status" aria-live="polite">No photos selected</span>
+          </label>
+
           <label>
-            Inspiration Photos, Color Palettes, or Links
-            <small>Paste shareable Google Drive, Pinterest, Dropbox, or website links.</small>
+            Optional Inspiration Links
+            <small>Paste any shareable Google Drive, Pinterest, Dropbox, or website links.</small>
             <textarea name="Inspiration Links" rows="4"></textarea>
           </label>
         </fieldset>
