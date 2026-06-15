@@ -8,7 +8,7 @@ Open `index.html` in a browser or serve this folder with a local web server.
 
 ## Before publishing
 
-- Replace `hello@collectivelydelanie.com` with the preferred contact email.
+- Confirm the preferred public contact email remains `collectivelydelanie@gmail.com`.
 - Add the PEPd destination when it is ready.
 - Confirm the final wellness language and required legal disclosures.
 
