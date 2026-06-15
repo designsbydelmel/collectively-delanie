@@ -864,10 +864,6 @@ footer p {
 }
 
 .font-choice-panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
   margin: 26px 0;
   padding: 24px;
   border-radius: 8px;
@@ -892,8 +888,18 @@ footer p {
   font-size: 12px;
 }
 
-.font-choice-panel .button {
-  flex: 0 0 auto;
+.font-preview-button {
+  margin-top: 18px;
+  border: 2px solid white;
+  background: white;
+  color: var(--deep-sage);
+  box-shadow: 0 5px 15px rgba(25, 36, 30, 0.2);
+}
+
+.font-preview-button:hover,
+.font-preview-button:focus-visible {
+  border-color: #e5bcc6;
+  background: #fff8fa;
 }
 
 .file-upload input[type="file"] {
@@ -1052,6 +1058,183 @@ footer p {
   margin-top: 35px;
 }
 
+.subpage-hero {
+  display: grid;
+  min-height: 520px;
+  padding: 110px clamp(24px, 8vw, 150px);
+  place-content: center;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(185, 154, 166, 0.28), transparent 27%),
+    radial-gradient(circle at 12% 80%, rgba(94, 121, 117, 0.18), transparent 30%),
+    var(--cream);
+  text-align: center;
+}
+
+.subpage-hero h1 {
+  max-width: 900px;
+  margin: 0 auto 22px;
+  font-size: clamp(62px, 8vw, 116px);
+}
+
+.subpage-hero > p:last-child {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.project-showcase,
+.reviews-section {
+  padding: 110px clamp(24px, 7vw, 130px);
+}
+
+.gallery-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 45px 0 35px;
+}
+
+.gallery-filter {
+  padding: 12px 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.gallery-filter.active,
+.gallery-filter:hover {
+  border-color: var(--deep-sage);
+  background: var(--deep-sage);
+  color: white;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.project-card {
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 18px 55px rgba(69, 52, 58, 0.08);
+}
+
+.project-card[hidden] {
+  display: none;
+}
+
+.project-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1.08;
+  object-fit: cover;
+  background: var(--cream);
+}
+
+.project-card > div {
+  padding: 26px;
+}
+
+.project-card h3 {
+  margin: 4px 0 10px;
+  font-size: 34px;
+}
+
+.project-card p {
+  margin: 0;
+}
+
+.project-category,
+.review-label {
+  color: var(--rose);
+  font-family: var(--body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.page-cta,
+.review-invitation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin: 0 clamp(24px, 7vw, 130px) 90px;
+  padding: 65px clamp(28px, 6vw, 90px);
+  background: var(--cream);
+}
+
+.page-cta h2,
+.review-invitation h2 {
+  margin: 0 0 12px;
+}
+
+.page-cta p,
+.review-invitation p {
+  max-width: 650px;
+  margin-bottom: 0;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 25px;
+  margin-top: 50px;
+}
+
+.review-card {
+  padding: 42px 34px;
+  border: 1px solid var(--line);
+  background: white;
+}
+
+.featured-review {
+  background: var(--cream);
+}
+
+.review-stars {
+  color: var(--rose);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+}
+
+.review-card blockquote {
+  margin: 24px 0 28px;
+  color: var(--ink);
+  font-family: var(--headline);
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.review-name {
+  margin: 0 0 5px;
+  color: var(--deep-sage);
+  font-weight: 600;
+}
+
+.review-label {
+  margin: 0;
+}
+
+.review-invitation {
+  background: var(--deep-sage);
+  color: white;
+}
+
+.review-invitation h2,
+.review-invitation p,
+.review-invitation .section-kicker {
+  color: white;
+}
+
 @media (max-width: 900px) {
   .site-header {
     min-height: 74px;
@@ -1133,6 +1316,17 @@ footer p {
 
   .pepd-resources {
     grid-template-columns: 1fr;
+  }
+
+  .project-grid,
+  .review-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-cta,
+  .review-invitation {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .value-grid {
@@ -1234,8 +1428,29 @@ footer p {
     gap: 0;
   }
 
-  .font-choice-panel {
-    align-items: flex-start;
-    flex-direction: column;
+  .project-grid,
+  .review-grid {
+    grid-template-columns: 1fr;
   }
+
+  .subpage-hero {
+    min-height: 430px;
+    padding: 80px 24px;
+  }
+
+  .subpage-hero h1 {
+    font-size: 58px;
+  }
+
+  .project-showcase,
+  .reviews-section {
+    padding: 80px 20px;
+  }
+
+  .page-cta,
+  .review-invitation {
+    margin: 0 14px 40px;
+    padding: 48px 25px;
+  }
+
 }

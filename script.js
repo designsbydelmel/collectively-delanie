@@ -6,17 +6,23 @@ const orderForm = document.querySelector(".custom-order-form");
 const requestedDate = document.querySelector('input[name="Requested Completion Date"]');
 const photoInput = document.querySelector('input[name="Inspiration Photos"]');
 const fileStatus = document.querySelector(".file-status");
+const galleryFilters = document.querySelectorAll(".gallery-filter");
+const projectCards = document.querySelectorAll(".project-card");
 const maxUploadBytes = 10 * 1024 * 1024;
 
-menuButton.addEventListener("click", () => {
-  const isOpen = siteNav.classList.toggle("open");
-  menuButton.setAttribute("aria-expanded", String(isOpen));
-});
+if (menuButton && siteNav) {
+  menuButton.addEventListener("click", () => {
+    const isOpen = siteNav.classList.toggle("open");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+  });
+}
 
 navLinks.forEach((link) => {
   link.addEventListener("click", () => {
     siteNav.classList.remove("open");
-    menuButton.setAttribute("aria-expanded", "false");
+    if (menuButton) {
+      menuButton.setAttribute("aria-expanded", "false");
+    }
   });
 });
 
@@ -55,3 +61,16 @@ if (photoInput && fileStatus) {
       : "No photos selected";
   });
 }
+
+galleryFilters.forEach((button) => {
+  button.addEventListener("click", () => {
+    const filter = button.dataset.filter;
+
+    galleryFilters.forEach((filterButton) => filterButton.classList.remove("active"));
+    button.classList.add("active");
+
+    projectCards.forEach((card) => {
+      card.hidden = filter !== "all" && card.dataset.category !== filter;
+    });
+  });
+});
