@@ -1,6 +1,7 @@
 const adminGate = document.querySelector("[data-admin-gate]");
 const adminDashboard = document.querySelector("[data-admin-dashboard]");
 const adminAccessForm = document.querySelector("[data-admin-access-form]");
+const adminOpen = document.querySelector("[data-admin-open]");
 const adminLock = document.querySelector("[data-admin-lock]");
 const responseList = document.querySelector("[data-response-list]");
 const responseDetail = document.querySelector("[data-response-detail]");
@@ -9,14 +10,18 @@ const statusFilter = document.querySelector("[data-status-filter]");
 const rushFilter = document.querySelector("[data-rush-filter]");
 const importInput = document.querySelector("[data-response-import]");
 const resetButton = document.querySelector("[data-admin-reset]");
+const adminKeyHelp = document.querySelector("[data-admin-key-help]");
+const liveStatus = document.querySelector("[data-live-status]");
 
 const statTotal = document.querySelector("[data-stat-total]");
 const statNew = document.querySelector("[data-stat-new]");
 const statRush = document.querySelector("[data-stat-rush]");
 const statWeek = document.querySelector("[data-stat-week]");
 
+const siteConfig = window.COLLECTIVELY_DELANIE_CONFIG || globalThis.COLLECTIVELY_DELANIE_CONFIG || {};
 const storageKey = "collectivelyDelanieAdminResponses";
 const accessKey = "collectivelyDelanieAdminUnlocked";
+const adminKeyStorageKey = "collectivelyDelanieAdminKey";
 
 const sampleResponses = [
   {
@@ -55,6 +60,10 @@ const sampleResponses = [
 
 let responses = loadResponses();
 let selectedId = responses[0]?.id || null;
+
+if (adminKeyHelp && siteConfig.adminKeyLabel) {
+  adminKeyHelp.textContent = siteConfig.adminKeyLabel;
+}
 
 function normalizeResponse(raw, index) {
   const getValue = (...keys) => {
@@ -103,6 +112,7 @@ function unlockDashboard() {
   adminGate.hidden = true;
   adminDashboard.hidden = false;
   renderDashboard();
+  adminDashboard.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function lockDashboard() {
@@ -247,6 +257,78 @@ function renderDashboard() {
   renderDetail();
 }
 
+async function openDashboard() {
+  const formData = new FormData(adminAccessForm);
+  const adminKey = formData.get("adminKey") || sessionStorage.getItem(adminKeyStorageKey) || "";
+
+  if (adminKey) {
+    sessionStorage.setItem(adminKeyStorageKey, adminKey);
+  }
+
+  unlockDashboard();
+  adminAccessForm.reset();
+
+  if (!siteConfig.appsScriptUrl) {
+    updateLiveStatus("Google Sheets is not connected yet. Showing sample/imported dashboard data.");
+    return;
+  }
+
+  if (!adminKey) {
+    updateLiveStatus("Enter your private admin key to load live Google Sheet responses.");
+    return;
+  }
+
+  updateLiveStatus("Loading live responses from your private Google Sheet...");
+
+  try {
+    const data = await fetchLiveResponses(adminKey);
+
+    if (!data.ok) {
+      updateLiveStatus(data.error === "Unauthorized"
+        ? "That admin key was not accepted. Check the key saved in Google Apps Script."
+        : "The Google Sheet connection responded, but it could not load responses.");
+      return;
+    }
+
+    responses = (data.responses || []).map(normalizeResponse);
+    selectedId = responses[0]?.id || null;
+    saveResponses();
+    renderDashboard();
+    updateLiveStatus(`Loaded ${responses.length} live response${responses.length === 1 ? "" : "s"} from Google Sheets.`);
+  } catch {
+    updateLiveStatus("Could not reach the Google Sheet connection. Check the Apps Script URL in site-config.js.");
+  }
+}
+
+function updateLiveStatus(message) {
+  if (liveStatus) {
+    liveStatus.textContent = message;
+  }
+}
+
+function fetchLiveResponses(adminKey) {
+  return new Promise((resolve, reject) => {
+    const callbackName = `collectivelyDelanieResponses_${Date.now()}`;
+    const script = document.createElement("script");
+    const separator = siteConfig.appsScriptUrl.includes("?") ? "&" : "?";
+
+    window[callbackName] = (data) => {
+      delete window[callbackName];
+      script.remove();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      delete window[callbackName];
+      script.remove();
+      reject(new Error("Unable to load responses"));
+    };
+
+    script.src = `${siteConfig.appsScriptUrl}${separator}action=list&key=${encodeURIComponent(adminKey)}&callback=${callbackName}`;
+    document.body.appendChild(script);
+  });
+}
+
 function updateSelectedResponse(id) {
   selectedId = id;
   renderDashboard();
@@ -337,8 +419,11 @@ function escapeHtml(value) {
 
 adminAccessForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  unlockDashboard();
-  adminAccessForm.reset();
+  openDashboard();
+});
+
+adminOpen.addEventListener("click", () => {
+  openDashboard();
 });
 
 adminLock.addEventListener("click", lockDashboard);
@@ -382,5 +467,5 @@ resetButton.addEventListener("click", () => {
 });
 
 if (sessionStorage.getItem(accessKey) === "true") {
-  unlockDashboard();
+  openDashboard();
 }

@@ -21,3 +21,5 @@ After publishing, submit one test order and click the activation link that FormS
 ## Admin dashboard
 
 `admin.html` is an unlinked, noindex dashboard interface for reviewing submissions in one organized place. Because this site is hosted on static GitHub Pages, the admin page is not truly private by itself. Do not publish real customer response data directly in the repository. For live private submissions, connect the page to a protected backend or authenticated form database.
+
+The included `google-apps-script.js` and `site-config.js` files support a Google Sheets bridge for live text responses. Follow `ADMIN_SETUP.md` to connect it.

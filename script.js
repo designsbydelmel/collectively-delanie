@@ -9,6 +9,7 @@ const fileStatus = document.querySelector(".file-status");
 const galleryFilters = document.querySelectorAll(".gallery-filter");
 const projectCards = document.querySelectorAll(".project-card");
 const maxUploadBytes = 10 * 1024 * 1024;
+const siteConfig = window.COLLECTIVELY_DELANIE_CONFIG || globalThis.COLLECTIVELY_DELANIE_CONFIG || {};
 
 if (menuButton && siteNav) {
   menuButton.addEventListener("click", () => {
@@ -37,7 +38,10 @@ if (orderForm) {
     if (contactMethods.length === 0) {
       event.preventDefault();
       alert("Please select at least one preferred contact method.");
+      return;
     }
+
+    mirrorOrderSubmission(orderForm);
   });
 }
 
@@ -74,3 +78,53 @@ galleryFilters.forEach((button) => {
     });
   });
 });
+
+function mirrorOrderSubmission(form) {
+  if (!siteConfig.appsScriptUrl) {
+    return;
+  }
+
+  const payload = formToResponsePayload(form);
+  const body = JSON.stringify(payload);
+
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon(siteConfig.appsScriptUrl, new Blob([body], { type: "text/plain" }));
+    return;
+  }
+
+  fetch(siteConfig.appsScriptUrl, {
+    method: "POST",
+    mode: "no-cors",
+    body
+  }).catch(() => {
+    // The FormSubmit email remains the source of truth if the dashboard mirror is unavailable.
+  });
+}
+
+function formToResponsePayload(form) {
+  const formData = new FormData(form);
+  const payload = {
+    id: `order-${Date.now()}`,
+    submittedAt: new Date().toISOString(),
+    status: "New"
+  };
+
+  formData.forEach((value, key) => {
+    if (key.startsWith("_") || value instanceof File) {
+      return;
+    }
+
+    const cleanKey = key.replace("[]", "");
+    const cleanValue = String(value).trim();
+
+    if (!cleanValue) {
+      return;
+    }
+
+    payload[cleanKey] = payload[cleanKey]
+      ? `${payload[cleanKey]}, ${cleanValue}`
+      : cleanValue;
+  });
+
+  return payload;
+}

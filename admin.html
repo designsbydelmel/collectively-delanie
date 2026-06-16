@@ -26,17 +26,17 @@
       <div class="admin-gate-card">
         <p class="section-kicker">Admin access</p>
         <h1>Review every response in one calm, organized place.</h1>
-        <p>This page is intentionally unlinked and hidden from search. True private access still requires a secure backend or protected form provider connection.</p>
+        <p>This page is intentionally unlinked and hidden from search. Once connected to Google Apps Script, your private key unlocks the saved order responses from your Google Sheet.</p>
 
         <form class="admin-access-form" data-admin-access-form>
           <label>
             Admin session key
             <input type="password" name="adminKey" autocomplete="current-password" placeholder="Enter your private key" required>
           </label>
-          <button class="button button-primary" type="submit">Open Dashboard</button>
+          <button class="button button-primary" type="button" data-admin-open>Open Dashboard</button>
         </form>
 
-        <p class="admin-security-note">For now, this key only unlocks the dashboard view in this browser. Do not publish real customer data here until the page is connected to a protected backend.</p>
+        <p class="admin-security-note" data-admin-key-help>Use the private admin key you set in Google Apps Script.</p>
       </div>
     </section>
 
@@ -54,7 +54,7 @@
         <div>
           <p class="section-kicker">Connection needed</p>
           <h2>Ready for a secure response feed.</h2>
-          <p>The current order form sends responses through FormSubmit email. To make this page show live submissions automatically, connect the form to a private data source such as Airtable, Google Sheets through a protected Apps Script, Supabase, Firebase, or a small serverless function with login.</p>
+          <p data-live-status>The current order form still sends the normal FormSubmit email. Add your Google Apps Script URL to <code>site-config.js</code> and this dashboard will load saved text responses from your private Google Sheet.</p>
         </div>
       </section>
 
@@ -133,6 +133,7 @@
     </section>
   </main>
 
+  <script src="site-config.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>
