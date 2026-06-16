@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Private Collectively Delanie submission dashboard.">
+  <title>Admin Dashboard | Collectively Delanie</title>
+  <link rel="icon" href="assets/collectively-delanie-logo.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+  <header class="site-header admin-header">
+    <a class="site-logo" href="index.html" aria-label="Collectively Delanie home">
+      <img src="assets/collectively-delanie-logo.png" alt="Collectively Delanie">
+    </a>
+
+    <div class="admin-header-note">
+      <span>Private dashboard</span>
+      <strong>Collectively Delanie</strong>
+    </div>
+  </header>
+
+  <main class="admin-shell" data-admin-shell>
+    <section class="admin-gate" data-admin-gate>
+      <div class="admin-gate-card">
+        <p class="section-kicker">Admin access</p>
+        <h1>Review every response in one calm, organized place.</h1>
+        <p>This page is intentionally unlinked and hidden from search. True private access still requires a secure backend or protected form provider connection.</p>
+
+        <form class="admin-access-form" data-admin-access-form>
+          <label>
+            Admin session key
+            <input type="password" name="adminKey" autocomplete="current-password" placeholder="Enter your private key" required>
+          </label>
+          <button class="button button-primary" type="submit">Open Dashboard</button>
+        </form>
+
+        <p class="admin-security-note">For now, this key only unlocks the dashboard view in this browser. Do not publish real customer data here until the page is connected to a protected backend.</p>
+      </div>
+    </section>
+
+    <section class="admin-dashboard" data-admin-dashboard hidden>
+      <div class="admin-hero">
+        <div>
+          <p class="section-kicker">Submission studio</p>
+          <h1>Custom order responses, beautifully sorted.</h1>
+          <p>Search, filter, review details, and track follow-up status for every Designs by Delanie request.</p>
+        </div>
+        <button class="button button-light" type="button" data-admin-lock>Lock dashboard</button>
+      </div>
+
+      <section class="admin-alert">
+        <div>
+          <p class="section-kicker">Connection needed</p>
+          <h2>Ready for a secure response feed.</h2>
+          <p>The current order form sends responses through FormSubmit email. To make this page show live submissions automatically, connect the form to a private data source such as Airtable, Google Sheets through a protected Apps Script, Supabase, Firebase, or a small serverless function with login.</p>
+        </div>
+      </section>
+
+      <section class="admin-tools" aria-label="Admin dashboard tools">
+        <label class="admin-search">
+          <span>Search responses</span>
+          <input type="search" data-admin-search placeholder="Search name, email, project, font, notes...">
+        </label>
+
+        <label>
+          <span>Status</span>
+          <select data-status-filter>
+            <option value="all">All statuses</option>
+            <option value="New">New</option>
+            <option value="Needs Quote">Needs Quote</option>
+            <option value="Quoted">Quoted</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Rush</span>
+          <select data-rush-filter>
+            <option value="all">All requests</option>
+            <option value="rush">Rush only</option>
+            <option value="standard">Standard only</option>
+          </select>
+        </label>
+
+        <label class="admin-import">
+          <span>Import CSV or JSON</span>
+          <input type="file" data-response-import accept=".csv,.json,application/json,text/csv">
+        </label>
+      </section>
+
+      <section class="admin-stats" aria-label="Submission summary">
+        <article>
+          <span data-stat-total>0</span>
+          <p>Total responses</p>
+        </article>
+        <article>
+          <span data-stat-new>0</span>
+          <p>New requests</p>
+        </article>
+        <article>
+          <span data-stat-rush>0</span>
+          <p>Rush requests</p>
+        </article>
+        <article>
+          <span data-stat-week>0</span>
+          <p>Due this week</p>
+        </article>
+      </section>
+
+      <section class="admin-workspace">
+        <div class="admin-list-panel">
+          <div class="admin-panel-heading">
+            <div>
+              <p class="section-kicker">Inbox</p>
+              <h2>Responses</h2>
+            </div>
+            <button class="text-link" type="button" data-admin-reset>Reset sample data <span>→</span></button>
+          </div>
+          <div class="admin-response-list" data-response-list></div>
+        </div>
+
+        <aside class="admin-detail-panel" data-response-detail>
+          <div class="empty-detail">
+            <p class="section-kicker">Select a response</p>
+            <h2>Details will appear here.</h2>
+            <p>Choose a submission from the inbox to review customer info, project details, preferred font, deadlines, and follow-up notes.</p>
+          </div>
+        </aside>
+      </section>
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
