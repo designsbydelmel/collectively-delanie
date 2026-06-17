@@ -1079,9 +1079,9 @@ footer p {
 
 .subpage-brand-logo {
   display: block;
-  width: min(100%, 320px);
-  max-height: 215px;
-  margin: 0 auto 22px;
+  width: min(100%, 210px);
+  max-height: 145px;
+  margin: 0 auto 18px;
   object-fit: contain;
 }
 
