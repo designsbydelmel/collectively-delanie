@@ -1071,9 +1071,24 @@ footer p {
 }
 
 .subpage-hero h1 {
-  max-width: 760px;
-  margin: 0 auto 22px;
+  max-width: 980px;
+  margin: 0 auto 34px;
   font-size: clamp(42px, 5.2vw, 72px);
+  line-height: 1.08;
+}
+
+.subpage-brand-logo {
+  display: block;
+  width: min(100%, 320px);
+  max-height: 215px;
+  margin: 0 auto 22px;
+  object-fit: contain;
+}
+
+.subpage-hero h1 .script-accent {
+  display: inline-block;
+  margin-left: 0.12em;
+  line-height: 0.9;
 }
 
 .subpage-hero > p:last-child {
