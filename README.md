@@ -22,6 +22,8 @@ The Apps Script saves submissions into the Google Sheet and sends email notifica
 
 Photo uploads are not connected to Google Drive yet. The form currently asks customers to paste shareable inspiration links instead.
 
+The website JavaScript submits the form to Apps Script in the background, then redirects customers to `order-thank-you.html`.
+
 ## Google Sheet order tracker
 
 The `order-tracker` folder beside this website folder contains the Google Apps Script setup for saving custom order submissions into a Google Sheet.

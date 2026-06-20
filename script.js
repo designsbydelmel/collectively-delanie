@@ -31,12 +31,40 @@ if (year) {
 }
 
 if (orderForm) {
-  orderForm.addEventListener("submit", (event) => {
+  orderForm.addEventListener("submit", async (event) => {
     const contactMethods = orderForm.querySelectorAll('input[name="Preferred Contact Method[]"]:checked');
 
     if (contactMethods.length === 0) {
       event.preventDefault();
       alert("Please select at least one preferred contact method.");
+      return;
+    }
+
+    event.preventDefault();
+
+    const submitButton = orderForm.querySelector(".submit-order");
+    const originalButtonText = submitButton ? submitButton.textContent : "";
+
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+    }
+
+    try {
+      await fetch(orderForm.action, {
+        method: "POST",
+        mode: "no-cors",
+        body: new URLSearchParams(new FormData(orderForm)),
+      });
+
+      window.location.href = "order-thank-you.html";
+    } catch (error) {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+
+      alert("There was an issue submitting your order. Please try again or email collectivelydelanie@gmail.com.");
     }
   });
 }
