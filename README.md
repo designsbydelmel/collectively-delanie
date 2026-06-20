@@ -14,6 +14,16 @@ Open `index.html` in a browser or serve this folder with a local web server.
 
 ## Custom order form
 
-The custom order page sends submissions to `collectivelydelanie@gmail.com` using FormSubmit.
+The custom order page sends submissions to the Google Apps Script order tracker:
 
-After publishing, submit one test order and click the activation link that FormSubmit sends to that email address. Orders will not be delivered until the address is activated.
+`https://script.google.com/macros/s/AKfycbzHGJWOJYbEYb-hNgZvMU2CluuukOKEhD_TtEiIMaak7_Lf10r0Qb9ftFdWAZHhPRJgmg/exec`
+
+The Apps Script saves submissions into the Google Sheet and sends email notifications to `collectivelydelanie@gmail.com`.
+
+Photo uploads are not connected to Google Drive yet. The form currently asks customers to paste shareable inspiration links instead.
+
+## Google Sheet order tracker
+
+The `order-tracker` folder beside this website folder contains the Google Apps Script setup for saving custom order submissions into a Google Sheet.
+
+After publishing, submit one test order and confirm it appears in the Google Sheet.
