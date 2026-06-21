@@ -1196,6 +1196,10 @@ footer p {
   margin-bottom: 0;
 }
 
+.reviews-widget {
+  margin-top: 48px;
+}
+
 .review-invitation {
   background: var(--deep-sage);
   color: white;
