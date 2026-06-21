@@ -11,6 +11,7 @@ Open `index.html` in a browser or serve this folder with a local web server.
 - Replace `hello@collectivelydelanie.com` with the preferred contact email.
 - Add the PEPd destination when it is ready.
 - Confirm the final wellness language and required legal disclosures.
+- Replace the Google review search link in `reviews.html` with the direct Google Business Profile review URL once the final profile link is available.
 
 ## Custom order form
 
