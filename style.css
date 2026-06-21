@@ -1196,13 +1196,16 @@ footer p {
   margin-bottom: 0;
 }
 
-.reviews-widget {
-  margin-top: 48px;
-}
-
 .review-invitation {
   background: var(--deep-sage);
   color: white;
+}
+
+.review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: flex-end;
 }
 
 .review-invitation h2,
@@ -1302,6 +1305,10 @@ footer p {
   .review-invitation {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .review-actions {
+    justify-content: flex-start;
   }
 
   .value-grid {
