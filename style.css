@@ -1196,22 +1196,6 @@ footer p {
   margin-bottom: 0;
 }
 
-.google-reviews-panel {
-  overflow: hidden;
-  min-height: 520px;
-  margin-top: 48px;
-  border: 1px solid var(--line);
-  background: white;
-  box-shadow: 0 18px 55px rgba(69, 52, 58, 0.08);
-}
-
-.google-reviews-panel iframe {
-  display: block;
-  width: 100%;
-  min-height: 520px;
-  border: 0;
-}
-
 .review-invitation {
   background: var(--deep-sage);
   color: white;
@@ -1431,11 +1415,6 @@ footer p {
   .project-showcase,
   .reviews-section {
     padding: 80px 20px;
-  }
-
-  .google-reviews-panel,
-  .google-reviews-panel iframe {
-    min-height: 430px;
   }
 
   .page-cta,
