@@ -231,7 +231,14 @@ a {
 
 .button-light {
   background: white;
+  border-color: white;
   color: var(--deep-sage);
+}
+
+.button-white-outline {
+  background: transparent;
+  border-color: white;
+  color: white;
 }
 
 .text-link {
