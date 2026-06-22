@@ -244,6 +244,10 @@ a {
   text-transform: uppercase;
 }
 
+.text-link-light {
+  color: white;
+}
+
 .text-link span {
   display: inline-block;
   margin-left: 5px;
@@ -379,11 +383,34 @@ a {
 }
 
 .brand-copy .pepd-title {
-  font-weight: 600;
+  max-width: 430px;
+  margin: 0 auto 44px;
 }
 
-.pepd-title .script-accent {
-  font-weight: 400;
+.pepd-title img {
+  display: block;
+  width: min(100%, 430px);
+  height: auto;
+  filter: drop-shadow(0 12px 28px rgba(22, 32, 27, 0.18));
+}
+
+.wellness-card .brand-copy {
+  text-align: center;
+}
+
+.wellness-card .brand-copy > p:not(.card-number, .wellness-note) {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wellness-card .tag-list,
+.wellness-card .card-actions {
+  justify-content: center;
+}
+
+.wellness-card .wellness-note {
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .brand-copy > p:not(.card-number, .wellness-note) {
@@ -454,26 +481,111 @@ a {
 
 .wellness-visual {
   position: relative;
-  min-height: 600px;
+  display: grid;
+  min-height: 760px;
   background: #eee9e2;
   color: var(--deep-sage);
   overflow: hidden;
+  place-items: center;
 }
 
 .wellness-visual::after {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 52%, rgba(42, 56, 48, 0.82) 100%);
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 68%, rgba(42, 56, 48, 0.34) 100%);
   content: "";
 }
 
-.wellness-visual img {
+.wellness-carousel {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 520px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #fffaf7;
+}
+
+.carousel-slides,
+.carousel-slide {
+  position: absolute;
+  inset: 0;
+}
+
+.carousel-slide {
+  display: none;
+  margin: 0;
+}
+
+.carousel-slide.active {
+  display: block;
+}
+
+.carousel-slide img {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 600px;
+  min-height: 0;
+  background: #fffaf7;
+  object-fit: cover;
+  object-position: center;
+}
+
+.carousel-slide:first-child img {
   object-fit: cover;
   object-position: center top;
+}
+
+.carousel-controls {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.carousel-button,
+.carousel-dot {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--deep-sage);
+  font-family: var(--label);
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.carousel-button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 17px;
+  place-items: center;
+}
+
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  opacity: 0.55;
+}
+
+.carousel-dot.active {
+  background: var(--deep-sage);
+  opacity: 1;
 }
 
 .wellness-mark {
@@ -1287,11 +1399,16 @@ footer p {
   }
 
   .wellness-visual {
-    min-height: 500px;
+    min-height: 680px;
   }
 
-  .wellness-visual img {
-    min-height: 500px;
+  .wellness-carousel {
+    width: min(100%, 500px);
+    min-height: 0;
+  }
+
+  .carousel-slide img {
+    min-height: 0;
   }
 
   .pepd-resources {
@@ -1368,11 +1485,16 @@ footer p {
   }
 
   .wellness-visual {
-    min-height: 390px;
+    min-height: 560px;
   }
 
-  .wellness-visual img {
-    min-height: 390px;
+  .wellness-carousel {
+    width: min(100%, 390px);
+    min-height: 0;
+  }
+
+  .carousel-slide img {
+    min-height: 0;
   }
 
   .resource-gallery {

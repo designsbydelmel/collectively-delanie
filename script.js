@@ -8,6 +8,7 @@ const photoInput = document.querySelector('input[name="Inspiration Photos"]');
 const fileStatus = document.querySelector(".file-status");
 const galleryFilters = document.querySelectorAll(".gallery-filter");
 const projectCards = document.querySelectorAll(".project-card");
+const wellnessCarousel = document.querySelector("[data-carousel]");
 const maxUploadBytes = 10 * 1024 * 1024;
 
 if (menuButton && siteNav) {
@@ -102,3 +103,63 @@ galleryFilters.forEach((button) => {
     });
   });
 });
+
+if (wellnessCarousel) {
+  const slidesContainer = wellnessCarousel.querySelector(".carousel-slides");
+  const prevButton = wellnessCarousel.querySelector(".carousel-prev");
+  const nextButton = wellnessCarousel.querySelector(".carousel-next");
+  const dotsContainer = wellnessCarousel.querySelector(".carousel-dots");
+  let currentSlide = 0;
+
+  const getSlides = () => Array.from(wellnessCarousel.querySelectorAll(".carousel-slide"));
+
+  const showSlide = (index) => {
+    const slides = getSlides();
+
+    if (!slides.length) {
+      return;
+    }
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides.forEach((slide, slideIndex) => {
+      slide.classList.toggle("active", slideIndex === currentSlide);
+    });
+
+    if (dotsContainer) {
+      Array.from(dotsContainer.children).forEach((dot, dotIndex) => {
+        dot.classList.toggle("active", dotIndex === currentSlide);
+        dot.setAttribute("aria-pressed", String(dotIndex === currentSlide));
+      });
+    }
+  };
+
+  const renderDots = () => {
+    if (!dotsContainer) {
+      return;
+    }
+
+    dotsContainer.innerHTML = "";
+
+    getSlides().forEach((slide, index) => {
+      const dot = document.createElement("button");
+      dot.className = "carousel-dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", `Show PEPd photo ${index + 1}`);
+      dot.addEventListener("click", () => showSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+
+    showSlide(currentSlide);
+  };
+
+  if (prevButton) {
+    prevButton.addEventListener("click", () => showSlide(currentSlide - 1));
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", () => showSlide(currentSlide + 1));
+  }
+
+  renderDots();
+}
