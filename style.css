@@ -177,9 +177,17 @@ a {
   letter-spacing: 0;
 }
 
+.hero h1 .script-accent {
+  display: block;
+  margin-top: 0.08em;
+  padding-bottom: 0.16em;
+  font-size: clamp(72px, 8.1vw, 120px);
+  line-height: 0.86;
+}
+
 .hero-text {
   max-width: 570px;
-  margin: 30px 0;
+  margin: clamp(46px, 5vw, 68px) 0 30px;
   color: var(--muted);
   font-size: 18px;
 }
@@ -1201,13 +1209,6 @@ footer p {
   color: white;
 }
 
-.review-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  justify-content: flex-end;
-}
-
 .review-invitation h2,
 .review-invitation p,
 .review-invitation .section-kicker {
@@ -1307,10 +1308,6 @@ footer p {
     flex-direction: column;
   }
 
-  .review-actions {
-    justify-content: flex-start;
-  }
-
   .value-grid {
     grid-template-columns: 1fr;
   }
@@ -1342,6 +1339,11 @@ footer p {
 
   .hero h1 {
     font-size: 55px;
+  }
+
+  .hero h1 .script-accent {
+    font-size: 72px;
+    line-height: 0.9;
   }
 
   .hero-art {
