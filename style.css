@@ -108,13 +108,13 @@ a {
 
 .site-nav {
   display: flex;
-  gap: 32px;
+  gap: clamp(16px, 2.1vw, 28px);
 }
 
 .site-nav a {
   color: var(--muted);
   font-family: var(--label);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-decoration: none;
@@ -888,6 +888,50 @@ footer p {
   padding: clamp(28px, 5vw, 72px);
   background: white;
   box-shadow: 0 22px 70px rgba(69, 52, 58, 0.08);
+}
+
+.peptide-order-hero {
+  background: linear-gradient(135deg, #fffdf9, #dbe2dc);
+}
+
+.peptide-order-layout {
+  align-items: start;
+}
+
+.peptide-order-card {
+  min-height: 100%;
+}
+
+.peptide-inquiry-list {
+  display: grid;
+  gap: 18px;
+  margin: 38px 0;
+}
+
+.peptide-inquiry-list div {
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: #fffdf9;
+}
+
+.peptide-inquiry-list span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--deep-sage);
+  font-family: var(--label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.peptide-inquiry-list p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.peptide-order-actions {
+  margin-top: 34px;
 }
 
 .form-heading {
