@@ -895,9 +895,9 @@ footer p {
 }
 
 .peptide-order-hero .order-brand-logo {
-  width: min(100%, 520px);
-  max-height: 330px;
-  margin-bottom: 58px;
+  width: min(100%, 640px);
+  max-height: 390px;
+  margin-bottom: 64px;
 }
 
 .peptide-order-hero h1 {
