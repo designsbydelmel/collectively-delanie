@@ -894,6 +894,27 @@ footer p {
   background: linear-gradient(135deg, #fffdf9, #dbe2dc);
 }
 
+.peptide-order-hero .order-brand-logo {
+  width: min(100%, 520px);
+  max-height: 330px;
+  margin-bottom: 58px;
+}
+
+.peptide-order-hero h1 {
+  max-width: 980px;
+  line-height: 1.08;
+}
+
+.peptide-order-hero h1 .script-accent {
+  display: inline-block;
+  padding-bottom: 0.28em;
+  line-height: 1;
+}
+
+.peptide-order-hero p:last-child {
+  margin-top: 18px;
+}
+
 .peptide-order-layout {
   align-items: start;
 }
