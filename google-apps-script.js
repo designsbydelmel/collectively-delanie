@@ -1,7 +1,8 @@
-const SHEET_NAME = "Custom Orders";
+const DESIGN_SHEET_NAME = "Custom Orders";
+const PEPTIDE_SHEET_NAME = "Peptide Orders";
 const ADMIN_KEY_PROPERTY = "ADMIN_KEY";
 
-const HEADERS = [
+const DESIGN_HEADERS = [
   "id",
   "submittedAt",
   "status",
@@ -18,13 +19,27 @@ const HEADERS = [
   "Notes"
 ];
 
+const PEPTIDE_HEADERS = [
+  "id",
+  "submittedAt",
+  "status",
+  "Order Type",
+  "Full Name",
+  "Phone Number",
+  "Preferred Contact Method",
+  "Peptides",
+  "Goals or Questions",
+  "Notes"
+];
+
 function doPost(event) {
-  const sheet = getSheet();
   const payload = parsePayload(event);
+  const orderConfig = getOrderConfig(payload);
+  const sheet = getSheet(orderConfig.sheetName, orderConfig.headers);
   const id = payload.id || Utilities.getUuid();
   const submittedAt = payload.submittedAt || new Date().toISOString();
 
-  sheet.appendRow(HEADERS.map((header) => {
+  sheet.appendRow(orderConfig.headers.map((header) => {
     if (header === "id") return id;
     if (header === "submittedAt") return submittedAt;
     if (header === "status") return payload.status || "New";
@@ -47,7 +62,10 @@ function doGet(event) {
     return jsonResponse({ ok: false, error: "Unauthorized" }, callback);
   }
 
-  const sheet = getSheet();
+  const orderConfig = params.type === "peptide"
+    ? { sheetName: PEPTIDE_SHEET_NAME, headers: PEPTIDE_HEADERS }
+    : { sheetName: DESIGN_SHEET_NAME, headers: DESIGN_HEADERS };
+  const sheet = getSheet(orderConfig.sheetName, orderConfig.headers);
   const values = sheet.getDataRange().getValues();
   const headers = values.shift() || [];
   const rows = values
@@ -61,35 +79,59 @@ function doGet(event) {
   return jsonResponse({ ok: true, responses: rows }, callback);
 }
 
-function getSheet() {
+function getSheet(sheetName, headers) {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = spreadsheet.getSheetByName(SHEET_NAME);
+  let sheet = spreadsheet.getSheetByName(sheetName);
 
   if (!sheet) {
-    sheet = spreadsheet.insertSheet(SHEET_NAME);
+    sheet = spreadsheet.insertSheet(sheetName);
   }
 
-  const firstRow = sheet.getRange(1, 1, 1, HEADERS.length).getValues()[0];
+  const firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
   const needsHeaders = firstRow.every((cell) => cell === "");
 
   if (needsHeaders) {
-    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
     sheet.setFrozenRows(1);
   }
 
   return sheet;
 }
 
+function getOrderConfig(payload) {
+  if (payload["Order Type"] === "Peptide Order") {
+    return {
+      sheetName: PEPTIDE_SHEET_NAME,
+      headers: PEPTIDE_HEADERS
+    };
+  }
+
+  return {
+    sheetName: DESIGN_SHEET_NAME,
+    headers: DESIGN_HEADERS
+  };
+}
+
 function parsePayload(event) {
   if (!event || !event.postData || !event.postData.contents) {
-    return {};
+    return normalizeParameters(event && event.parameters ? event.parameters : {});
   }
 
   try {
     return JSON.parse(event.postData.contents);
   } catch (error) {
-    return event.parameter || {};
+    return normalizeParameters(event.parameters || event.parameter || {});
   }
+}
+
+function normalizeParameters(parameters) {
+  return Object.keys(parameters).reduce((payload, key) => {
+    const normalizedKey = key.replace(/\[\]$/, "");
+    const value = parameters[key];
+
+    payload[normalizedKey] = Array.isArray(value) ? value.join(", ") : value;
+    return payload;
+  }, {});
 }
 
 function isAuthorized(key) {

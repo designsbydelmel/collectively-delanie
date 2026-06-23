@@ -2,13 +2,14 @@ const menuButton = document.querySelector(".menu-button");
 const siteNav = document.querySelector(".site-nav");
 const navLinks = document.querySelectorAll(".site-nav a");
 const year = document.getElementById("year");
-const orderForm = document.querySelector(".custom-order-form");
+const orderForms = document.querySelectorAll(".custom-order-form");
 const requestedDate = document.querySelector('input[name="Requested Completion Date"]');
 const photoInput = document.querySelector('input[name="Inspiration Photos"]');
 const fileStatus = document.querySelector(".file-status");
 const galleryFilters = document.querySelectorAll(".gallery-filter");
 const projectCards = document.querySelectorAll(".project-card");
 const wellnessCarousel = document.querySelector("[data-carousel]");
+const siteConfig = window.COLLECTIVELY_DELANIE_CONFIG || {};
 const maxUploadBytes = 10 * 1024 * 1024;
 
 if (menuButton && siteNav) {
@@ -31,17 +32,26 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
-if (orderForm) {
+orderForms.forEach((orderForm) => {
   orderForm.addEventListener("submit", async (event) => {
-    const contactMethods = orderForm.querySelectorAll('input[name="Preferred Contact Method[]"]:checked');
+    const multiContactMethods = orderForm.querySelectorAll('input[name="Preferred Contact Method[]"]');
+    const checkedMultiContactMethods = orderForm.querySelectorAll('input[name="Preferred Contact Method[]"]:checked');
+    const actionUrl = orderForm.dataset.actionSource === "site-config"
+      ? siteConfig.appsScriptUrl
+      : orderForm.action;
 
-    if (contactMethods.length === 0) {
+    if (multiContactMethods.length > 0 && checkedMultiContactMethods.length === 0) {
       event.preventDefault();
       alert("Please select at least one preferred contact method.");
       return;
     }
 
     event.preventDefault();
+
+    if (!actionUrl) {
+      alert("This form is not connected yet. Please email collectivelydelanie@gmail.com.");
+      return;
+    }
 
     const submitButton = orderForm.querySelector(".submit-order");
     const originalButtonText = submitButton ? submitButton.textContent : "";
@@ -52,13 +62,13 @@ if (orderForm) {
     }
 
     try {
-      await fetch(orderForm.action, {
+      await fetch(actionUrl, {
         method: "POST",
         mode: "no-cors",
         body: new URLSearchParams(new FormData(orderForm)),
       });
 
-      window.location.href = "order-thank-you.html";
+      window.location.href = orderForm.dataset.thankYou || "order-thank-you.html";
     } catch (error) {
       if (submitButton) {
         submitButton.disabled = false;
@@ -68,7 +78,7 @@ if (orderForm) {
       alert("There was an issue submitting your order. Please try again or email collectivelydelanie@gmail.com.");
     }
   });
-}
+});
 
 if (requestedDate) {
   requestedDate.min = new Date().toISOString().split("T")[0];

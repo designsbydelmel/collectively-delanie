@@ -902,36 +902,49 @@ footer p {
   min-height: 100%;
 }
 
-.peptide-inquiry-list {
+.peptide-order-card .form-heading {
+  text-align: center;
+}
+
+.peptide-order-card .form-heading h2 {
+  font-size: clamp(52px, 5.5vw, 82px);
+}
+
+.peptide-contact-row {
   display: grid;
-  gap: 18px;
-  margin: 38px 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.peptide-inquiry-list div {
-  padding: 22px;
-  border: 1px solid var(--line);
-  background: #fffdf9;
+.peptide-contact-row .choice {
+  justify-content: center;
+  padding: 17px 16px;
 }
 
-.peptide-inquiry-list span {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--deep-sage);
-  font-family: var(--label);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+.peptide-checkbox-list {
+  display: grid;
+  gap: 9px;
+  max-width: 420px;
 }
 
-.peptide-inquiry-list p {
+.peptide-checkbox-list .choice {
   margin: 0;
-  color: var(--muted);
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
 }
 
-.peptide-order-actions {
-  margin-top: 34px;
+.peptide-checkbox-list .choice:hover {
+  background: transparent;
+}
+
+.peptide-checkbox-list .choice span {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.peptide-secure-note {
+  margin-top: 18px;
+  text-align: center;
 }
 
 .form-heading {
@@ -1498,6 +1511,10 @@ footer p {
 
   .order-intro {
     position: static;
+  }
+
+  .peptide-contact-row {
+    grid-template-columns: 1fr;
   }
 }
 

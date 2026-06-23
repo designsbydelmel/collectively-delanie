@@ -50,33 +50,68 @@
         </div>
       </aside>
 
-      <article class="custom-order-form peptide-order-card">
+      <form class="custom-order-form peptide-order-card" action="" method="POST" data-form-type="peptide" data-action-source="site-config" data-thank-you="peptide-thank-you.html">
+        <input type="hidden" name="Order Type" value="Peptide Order">
+
         <div class="form-heading">
           <p class="section-kicker">Peptide order inquiry</p>
-          <h2>Ready to learn what may fit your goals?</h2>
-          <p>Send a quick note with your name, contact information, and what you are interested in exploring.</p>
+          <h2>Peptide Order</h2>
+          <p>Please complete the form below to start your peptide order inquiry.</p>
         </div>
 
-        <div class="peptide-inquiry-list">
-          <div>
-            <span>Interest areas</span>
-            <p>Energy, recovery, weight support, skin health, sleep, or general wellness optimization.</p>
+        <fieldset>
+          <legend>Contact information</legend>
+          <div class="form-grid">
+            <label>
+              Full Name <span>*</span>
+              <input type="text" name="Full Name" autocomplete="name" placeholder="Enter your full name" required>
+            </label>
+            <label>
+              Phone Number <span>*</span>
+              <input type="tel" name="Phone Number" autocomplete="tel" placeholder="Enter your phone number" required>
+            </label>
           </div>
-          <div>
-            <span>Helpful details</span>
-            <p>Include your preferred contact method, general goals, and any questions you would like answered.</p>
-          </div>
-          <div>
-            <span>Clinical note</span>
-            <p>Peptide education and ordering support require appropriate review and are not a substitute for emergency or primary medical care.</p>
-          </div>
-        </div>
 
-        <div class="hero-actions peptide-order-actions">
-          <a class="button button-primary" href="mailto:collectivelydelanie@gmail.com?subject=Peptide%20Order%20Inquiry">Start peptide inquiry</a>
-          <a class="text-link" href="index.html#brands">Learn about PEPd <span>→</span></a>
-        </div>
-      </article>
+          <div class="choice-group">
+            <p>Preferred Method of Contact <span>*</span></p>
+            <div class="choice-row peptide-contact-row">
+              <label class="choice"><input type="radio" name="Preferred Contact Method" value="Phone Call" required> <span>Phone Call</span></label>
+              <label class="choice"><input type="radio" name="Preferred Contact Method" value="Text Message"> <span>Text Message</span></label>
+              <label class="choice"><input type="radio" name="Preferred Contact Method" value="Email"> <span>Email</span></label>
+            </div>
+            <small>Please select your preferred method of contact.</small>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Select peptides</legend>
+          <p class="acknowledgement-intro">Please select all peptides you would like to discuss.</p>
+          <div class="peptide-checkbox-list">
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="Retatrutide"> <span>Retatrutide</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="Tirzepatide"> <span>Tirzepatide</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="Semiglutide"> <span>Semiglutide</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="Sermorelin"> <span>Sermorelin</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="MOTS-C"> <span>MOTS-C</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="NAD+"> <span>NAD+</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="KLOW"> <span>KLOW</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="GLOW"> <span>GLOW</span></label>
+            <label class="choice"><input type="checkbox" name="Peptides[]" value="TB500/BPC157"> <span>TB500/BPC157</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Additional notes</legend>
+          <label>
+            Goals or Questions
+            <small>Share anything you would like Delanie to know before following up.</small>
+            <textarea name="Goals or Questions" rows="5" placeholder="Tell us what you are hoping to support or learn more about."></textarea>
+          </label>
+          <p class="submission-note">Peptide education and ordering support require appropriate review and are not a substitute for emergency or primary medical care.</p>
+        </fieldset>
+
+        <button class="button button-primary submit-order" type="submit">Submit Order</button>
+        <p class="submission-note peptide-secure-note">Your information will only be used to follow up about your peptide inquiry.</p>
+      </form>
     </section>
   </main>
 
@@ -88,6 +123,7 @@
     <p class="copyright">© <span id="year"></span> Collectively Delanie</p>
   </footer>
 
+  <script src="site-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
