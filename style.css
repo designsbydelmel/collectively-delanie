@@ -490,6 +490,7 @@ a {
   position: relative;
   display: grid;
   min-height: 760px;
+  padding: clamp(34px, 4vw, 64px);
   background: #eee9e2;
   color: var(--deep-sage);
   overflow: hidden;
@@ -507,7 +508,7 @@ a {
 .wellness-carousel {
   position: relative;
   z-index: 2;
-  width: min(100%, 520px);
+  width: min(100%, 680px);
   aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #fffaf7;
@@ -1410,7 +1411,7 @@ footer p {
   }
 
   .wellness-carousel {
-    width: min(100%, 500px);
+    width: min(100%, 620px);
     min-height: 0;
   }
 
@@ -1496,7 +1497,7 @@ footer p {
   }
 
   .wellness-carousel {
-    width: min(100%, 390px);
+    width: min(100%, 480px);
     min-height: 0;
   }
 
