@@ -894,14 +894,24 @@ footer p {
   background: linear-gradient(135deg, #fffdf9, #dbe2dc);
 }
 
+.peptide-order-hero > div {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.75fr) minmax(320px, 1.25fr);
+  align-items: center;
+  max-width: 1180px;
+  gap: clamp(28px, 5vw, 70px);
+}
+
 .peptide-order-hero .order-brand-logo {
-  width: min(100%, 640px);
-  max-height: 390px;
-  margin-bottom: 64px;
+  width: min(100%, 420px);
+  max-height: 250px;
+  margin: 0;
 }
 
 .peptide-order-hero h1 {
   max-width: 980px;
+  margin: 0;
+  text-align: left;
   line-height: 1.08;
 }
 
@@ -1496,6 +1506,20 @@ footer p {
   .brand-card,
   .order-layout {
     grid-template-columns: 1fr;
+  }
+
+  .peptide-order-hero > div {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 28px;
+  }
+
+  .peptide-order-hero .order-brand-logo {
+    margin: 0 auto;
+  }
+
+  .peptide-order-hero h1 {
+    text-align: center;
   }
 
   .hero-copy {
