@@ -108,7 +108,7 @@ a {
 
 .site-nav {
   display: flex;
-  gap: clamp(16px, 2.1vw, 28px);
+  gap: clamp(14px, 1.8vw, 26px);
 }
 
 .site-nav a {
@@ -119,6 +119,7 @@ a {
   letter-spacing: 0.14em;
   text-decoration: none;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .site-nav a:hover {
@@ -1282,17 +1283,33 @@ footer p {
   width: min(100%, 980px);
 }
 
+.payment-card h1 {
+  max-width: 880px;
+  line-height: 1.08;
+}
+
+.payment-card h1 .script-accent {
+  display: block;
+  margin-top: 10px;
+  padding-bottom: 0.18em;
+  line-height: 0.9;
+}
+
+.payment-card > p:not(.section-kicker) {
+  margin-top: 36px;
+}
+
 .payment-brand {
   width: min(100%, 260px);
 }
 
 .payment-panel {
   display: grid;
-  grid-template-columns: minmax(220px, 360px) minmax(220px, 1fr);
-  align-items: center;
-  gap: clamp(24px, 5vw, 58px);
-  margin-top: 34px;
-  text-align: left;
+  justify-items: center;
+  gap: 22px;
+  width: min(100%, 390px);
+  margin: 34px auto 0;
+  text-align: center;
 }
 
 .venmo-qr {
@@ -1300,14 +1317,6 @@ footer p {
   margin: 0;
   border-radius: 8px;
   box-shadow: 0 16px 48px rgba(69, 52, 58, 0.12);
-}
-
-.payment-handle {
-  margin: 0 0 22px;
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: clamp(32px, 4vw, 54px);
-  line-height: 1;
 }
 
 .subpage-hero {
