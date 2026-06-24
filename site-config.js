@@ -1,5 +1,5 @@
 var COLLECTIVELY_DELANIE_CONFIG = {
-  appsScriptUrl: "https://script.google.com/macros/s/AKfycbwHvLpkrVypzmizMP9y1NFOBdhtOwVD59OgdS0aAh6tCWXeUpU0RnZAPjpU4pnR9k98/exec",
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycbzHGJWOJYbEYb-hNgZvMU2CluuukOKEhD_TtEiIMaak7_Lf10r0Qb9ftFdWAZHhPRJgmg/exec",
   adminKeyLabel: "Use the private admin key you set in Google Apps Script."
 };
 
