@@ -1274,6 +1274,10 @@ footer p {
   margin-left: auto;
 }
 
+.peptide-thank-you-page .thank-you-card > p:not(.section-kicker) {
+  margin-top: clamp(54px, 6vw, 82px);
+}
+
 .thank-you-card .hero-actions {
   justify-content: center;
   margin-top: 35px;
