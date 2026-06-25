@@ -315,14 +315,6 @@ a {
   box-shadow: 0 24px 70px rgba(51, 44, 47, 0.2);
 }
 
-.intro {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 140px 30px;
-  text-align: center;
-}
-
-.intro h2,
 .section-heading h2,
 .connect h2 {
   margin: 0;
@@ -331,13 +323,6 @@ a {
   font-weight: 400;
   letter-spacing: -0.04em;
   line-height: 1.08;
-}
-
-.intro > p:last-child {
-  max-width: 750px;
-  margin: 28px auto 0;
-  color: var(--muted);
-  font-size: 17px;
 }
 
 .brands {
@@ -1651,7 +1636,6 @@ footer p {
     min-height: 440px;
   }
 
-  .intro,
   .brands,
   .values {
     padding-top: 90px;
