@@ -73,26 +73,9 @@ function doPost(e) {
 }
 
 function setupOrderSheet() {
-  const sheet = getOrderSheet_(getDesignOrderConfig_());
-  sheet.getRange(1, 1, 1, DESIGN_HEADERS.length).setValues([DESIGN_HEADERS]);
-  sheet.setFrozenRows(1);
-  sheet.getRange(1, 1, 1, DESIGN_HEADERS.length)
-    .setFontWeight("bold")
-    .setBackground("#f7f2ed")
-    .setFontColor("#332c2f");
-  sheet.autoResizeColumns(1, DESIGN_HEADERS.length);
-  sheet.getRange("B:B").setDataValidation(
-    SpreadsheetApp.newDataValidation()
-      .requireValueInList(["New", "Contacted", "Quoted", "Approved", "In Progress", "Ready", "Complete", "Cancelled"], true)
-      .build()
-  );
-  sheet.getRange("M:M").setDataValidation(
-    SpreadsheetApp.newDataValidation()
-      .requireValueInList(["Not Sent", "Invoice Sent", "Deposit Paid", "Paid in Full", "Refunded"], true)
-      .build()
-  );
-  setupCompletedCustomOrdersSheet_();
-  setupPeptideOrderSheet();
+  setupSheetIfMissing_(DESIGN_SHEET_NAME, DESIGN_HEADERS);
+  setupSheetIfMissing_(COMPLETED_DESIGN_SHEET_NAME, DESIGN_HEADERS);
+  setupSheetIfMissing_(PEPTIDE_SHEET_NAME, PEPTIDE_HEADERS);
 }
 
 function onEdit(e) {
@@ -100,20 +83,7 @@ function onEdit(e) {
 }
 
 function setupCompletedCustomOrdersSheet_() {
-  const sheet = getOrderSheet_({
-    sheetName: COMPLETED_DESIGN_SHEET_NAME,
-    headers: DESIGN_HEADERS
-  });
-
-  sheet.getRange(1, 1, 1, DESIGN_HEADERS.length).setValues([DESIGN_HEADERS]);
-  sheet.setFrozenRows(1);
-  sheet.getRange(1, 1, 1, DESIGN_HEADERS.length)
-    .setFontWeight("bold")
-    .setBackground("#f7f2ed")
-    .setFontColor("#332c2f");
-  sheet.autoResizeColumns(1, DESIGN_HEADERS.length);
-
-  return sheet;
+  return setupSheetIfMissing_(COMPLETED_DESIGN_SHEET_NAME, DESIGN_HEADERS);
 }
 
 function setupPeptideOrderSheet() {
@@ -131,6 +101,26 @@ function setupPeptideOrderSheet() {
       .requireValueInList(["New", "Contacted", "Reviewed", "Followed Up", "Complete", "Cancelled"], true)
       .build()
   );
+}
+
+function setupSheetIfMissing_(sheetName, headers) {
+  const spreadsheet = getSpreadsheet_();
+  let sheet = spreadsheet.getSheetByName(sheetName);
+
+  if (sheet) {
+    return sheet;
+  }
+
+  sheet = spreadsheet.insertSheet(sheetName);
+  sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  sheet.setFrozenRows(1);
+  sheet.getRange(1, 1, 1, headers.length)
+    .setFontWeight("bold")
+    .setBackground("#f7f2ed")
+    .setFontColor("#332c2f");
+  sheet.autoResizeColumns(1, headers.length);
+
+  return sheet;
 }
 
 function sortExistingOrdersByRequestedDate() {
