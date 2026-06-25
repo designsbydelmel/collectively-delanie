@@ -1,6 +1,8 @@
 const DESIGN_SHEET_NAME = "Custom Orders";
+const COMPLETED_DESIGN_SHEET_NAME = "Completed Custom Orders";
 const PEPTIDE_SHEET_NAME = "Peptide Orders";
 const ADMIN_KEY_PROPERTY = "ADMIN_KEY";
+const COMPLETE_STATUSES = ["complete", "completed"];
 
 const DESIGN_HEADERS = [
   "id",
@@ -79,6 +81,10 @@ function doGet(event) {
   return jsonResponse({ ok: true, responses: rows }, callback);
 }
 
+function onEdit(event) {
+  moveCompletedCustomOrder(event);
+}
+
 function getSheet(sheetName, headers) {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = spreadsheet.getSheetByName(sheetName);
@@ -96,6 +102,49 @@ function getSheet(sheetName, headers) {
   }
 
   return sheet;
+}
+
+function moveCompletedCustomOrder(event) {
+  if (!event || !event.range) {
+    return;
+  }
+
+  const sheet = event.range.getSheet();
+
+  if (sheet.getName() !== DESIGN_SHEET_NAME || event.range.getRow() === 1) {
+    return;
+  }
+
+  const statusColumn = getHeaderColumn(sheet, "status");
+
+  if (event.range.getColumn() !== statusColumn) {
+    return;
+  }
+
+  const status = String(event.value || event.range.getValue() || "").trim().toLowerCase();
+
+  if (COMPLETE_STATUSES.indexOf(status) === -1) {
+    return;
+  }
+
+  const completedSheet = getSheet(COMPLETED_DESIGN_SHEET_NAME, DESIGN_HEADERS);
+  const row = event.range.getRow();
+  const rowValues = sheet.getRange(row, 1, 1, DESIGN_HEADERS.length).getValues()[0];
+
+  completedSheet.appendRow(rowValues);
+  completedSheet.getRange(completedSheet.getLastRow(), 1, 1, DESIGN_HEADERS.length).setVerticalAlignment("top");
+  sheet.deleteRow(row);
+}
+
+function getHeaderColumn(sheet, headerName) {
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const index = headers.indexOf(headerName);
+
+  if (index === -1) {
+    throw new Error(`The "${headerName}" column could not be found on the ${sheet.getName()} sheet.`);
+  }
+
+  return index + 1;
 }
 
 function getOrderConfig(payload) {

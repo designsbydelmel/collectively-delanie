@@ -1,8 +1,11 @@
 const DESIGN_SHEET_NAME = "Custom Orders";
+const COMPLETED_DESIGN_SHEET_NAME = "Completed Custom Orders";
 const PEPTIDE_SHEET_NAME = "Peptide Orders";
 const NOTIFICATION_EMAIL = "collectivelydelanie@gmail.com";
 const SPREADSHEET_ID = "PASTE_YOUR_GOOGLE_SHEET_ID_HERE";
 const REQUESTED_DATE_COLUMN = 9;
+const ORDER_STATUS_HEADER = "Order Status";
+const COMPLETE_STATUSES = ["complete", "completed"];
 
 const DESIGN_HEADERS = [
   "Date Submitted",
@@ -89,7 +92,29 @@ function setupOrderSheet() {
       .build()
   );
   sortOrdersByRequestedDate_(sheet, getDesignOrderConfig_());
+  setupCompletedCustomOrdersSheet_();
   setupPeptideOrderSheet();
+}
+
+function onEdit(e) {
+  moveCompletedCustomOrder_(e);
+}
+
+function setupCompletedCustomOrdersSheet_() {
+  const sheet = getOrderSheet_({
+    sheetName: COMPLETED_DESIGN_SHEET_NAME,
+    headers: DESIGN_HEADERS
+  });
+
+  sheet.getRange(1, 1, 1, DESIGN_HEADERS.length).setValues([DESIGN_HEADERS]);
+  sheet.setFrozenRows(1);
+  sheet.getRange(1, 1, 1, DESIGN_HEADERS.length)
+    .setFontWeight("bold")
+    .setBackground("#f7f2ed")
+    .setFontColor("#332c2f");
+  sheet.autoResizeColumns(1, DESIGN_HEADERS.length);
+
+  return sheet;
 }
 
 function setupPeptideOrderSheet() {
@@ -127,6 +152,50 @@ function getOrderSheet_(orderConfig) {
   }
 
   return sheet;
+}
+
+function moveCompletedCustomOrder_(e) {
+  if (!e || !e.range) {
+    return;
+  }
+
+  const sheet = e.range.getSheet();
+
+  if (sheet.getName() !== DESIGN_SHEET_NAME || e.range.getRow() === 1) {
+    return;
+  }
+
+  const statusColumn = getHeaderColumn_(sheet, ORDER_STATUS_HEADER);
+
+  if (e.range.getColumn() !== statusColumn) {
+    return;
+  }
+
+  const status = String(e.value || e.range.getValue() || "").trim().toLowerCase();
+
+  if (COMPLETE_STATUSES.indexOf(status) === -1) {
+    return;
+  }
+
+  const completedSheet = setupCompletedCustomOrdersSheet_();
+  const row = e.range.getRow();
+  const rowValues = sheet.getRange(row, 1, 1, DESIGN_HEADERS.length).getValues()[0];
+
+  completedSheet.appendRow(rowValues);
+  completedSheet.getRange(completedSheet.getLastRow(), 1, 1, DESIGN_HEADERS.length).setVerticalAlignment("top");
+  completedSheet.autoResizeColumns(1, DESIGN_HEADERS.length);
+  sheet.deleteRow(row);
+}
+
+function getHeaderColumn_(sheet, headerName) {
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const index = headers.indexOf(headerName);
+
+  if (index === -1) {
+    throw new Error('The "' + headerName + '" column could not be found on the ' + sheet.getName() + " sheet.");
+  }
+
+  return index + 1;
 }
 
 function getSpreadsheet_() {
