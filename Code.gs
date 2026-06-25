@@ -91,7 +91,6 @@ function setupOrderSheet() {
       .requireValueInList(["Not Sent", "Invoice Sent", "Deposit Paid", "Paid in Full", "Refunded"], true)
       .build()
   );
-  sortOrdersByRequestedDate_(sheet, getDesignOrderConfig_());
   setupCompletedCustomOrdersSheet_();
   setupPeptideOrderSheet();
 }
