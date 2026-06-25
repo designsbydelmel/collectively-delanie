@@ -1230,15 +1230,16 @@ footer p {
 }
 
 .thank-you-page {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  padding: 24px;
-  place-items: center;
+  padding: 0;
   background: linear-gradient(135deg, var(--cream), #eadcdf);
 }
 
 .thank-you-card {
-  width: min(100%, 900px);
+  width: min(calc(100% - 48px), 900px);
+  margin: clamp(48px, 7vw, 96px) auto;
   padding: clamp(40px, 8vw, 100px);
   background: white;
   box-shadow: 0 22px 70px rgba(69, 52, 58, 0.12);
@@ -1269,7 +1270,7 @@ footer p {
 }
 
 .payment-card {
-  width: min(100%, 1180px);
+  width: min(calc(100% - 48px), 1180px);
 }
 
 .payment-card h1 {
