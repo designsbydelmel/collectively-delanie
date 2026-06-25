@@ -375,6 +375,37 @@ a {
   line-height: 1;
 }
 
+.brand-copy .pepd-title {
+  max-width: 430px;
+  margin: 0 auto 44px;
+}
+
+.pepd-title img {
+  display: block;
+  width: min(100%, 430px);
+  height: auto;
+  filter: drop-shadow(0 12px 28px rgba(22, 32, 27, 0.18));
+}
+
+.wellness-card .brand-copy {
+  text-align: center;
+}
+
+.wellness-card .brand-copy > p:not(.card-number, .wellness-note) {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.wellness-card .tag-list,
+.wellness-card .card-actions {
+  justify-content: center;
+}
+
+.wellness-card .wellness-note {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .brand-copy > p:not(.card-number, .wellness-note) {
   max-width: 540px;
   margin: 0 0 28px;
@@ -410,22 +441,13 @@ a {
 
 .brand-visual img {
   display: block;
-  width: min(100%, 760px);
+  width: min(100%, 640px);
   height: auto;
 }
 
 .wellness-card {
   background: var(--deep-sage);
   color: white;
-}
-
-.wellness-logo-visual {
-  background: var(--deep-sage);
-}
-
-.wellness-logo-visual img {
-  width: min(100%, 720px);
-  filter: drop-shadow(0 16px 34px rgba(22, 32, 27, 0.24));
 }
 
 .wellness-card .card-number,
