@@ -870,15 +870,15 @@ footer p {
 
 .peptide-order-hero > div {
   display: grid;
-  grid-template-columns: minmax(240px, 0.75fr) minmax(320px, 1.25fr);
+  grid-template-columns: minmax(340px, 0.95fr) minmax(420px, 1.05fr);
   align-items: center;
   max-width: 1180px;
-  gap: clamp(28px, 5vw, 70px);
+  gap: clamp(34px, 5vw, 78px);
 }
 
 .peptide-order-hero .order-brand-logo {
-  width: min(100%, 420px);
-  max-height: 250px;
+  width: min(100%, 560px);
+  max-height: 360px;
   margin: 0;
 }
 
