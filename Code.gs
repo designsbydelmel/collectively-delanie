@@ -315,10 +315,14 @@ function sortOrdersByRequestedDate_(sheet, orderConfig) {
     return;
   }
 
-  sheet.getRange(2, 1, lastRow - 1, orderConfig.headers.length).sort([
-    { column: REQUESTED_DATE_COLUMN, ascending: true },
-    { column: 1, ascending: true }
-  ]);
+  try {
+    sheet.getRange(2, 1, lastRow - 1, orderConfig.headers.length).sort([
+      { column: REQUESTED_DATE_COLUMN, ascending: true },
+      { column: 1, ascending: true }
+    ]);
+  } catch (error) {
+    console.warn("Skipping requested-date sort because Google Sheets blocked it: " + error);
+  }
 }
 
 function sendNotification_(data, orderConfig) {
