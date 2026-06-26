@@ -7,21 +7,47 @@ const COMPLETE_STATUSES = ["complete", "completed"];
 
 const DESIGN_HEADERS = [
   "id",
-  "submittedAt",
-  "status",
-  "Full Name",
-  "Email Address",
+  "Date",
+  "Status",
+  "Name",
+  "Email",
   "Phone Number",
-  "Preferred Contact Method",
-  "Project Description",
-  "Preferred Font Name or Number",
-  "Requested Completion Date",
-  "Rush Order",
-  "Inspiration Photos",
-  "Inspiration Links",
+  "Method",
+  "Description",
+  "Font",
+  "Due By",
+  "Rush",
+  "Photos",
+  "Links",
   "Acknowledgement",
   "Notes"
 ];
+
+const DESIGN_HEADER_RENAMES = {
+  "submittedAt": "Date",
+  "status": "Status",
+  "Full Name": "Name",
+  "Email Address": "Email",
+  "Preferred Contact Method": "Method",
+  "Project Description": "Description",
+  "Preferred Font Name or Number": "Font",
+  "Requested Completion Date": "Due By",
+  "Rush Order": "Rush",
+  "Inspiration Photos": "Photos",
+  "Inspiration Links": "Links"
+};
+
+const DESIGN_HEADER_SOURCES = {
+  "Name": "Full Name",
+  "Email": "Email Address",
+  "Method": "Preferred Contact Method",
+  "Description": "Project Description",
+  "Font": "Preferred Font Name or Number",
+  "Due By": "Requested Completion Date",
+  "Rush": "Rush Order",
+  "Photos": "Inspiration Photos",
+  "Links": "Inspiration Links"
+};
 
 const PEPTIDE_HEADERS = [
   "id",
@@ -42,16 +68,18 @@ function doPost(event) {
   const sheet = getSheet(orderConfig.sheetName, orderConfig.headers);
   const id = payload.id || Utilities.getUuid();
   const submittedAt = payload.submittedAt || new Date().toISOString();
+  const photoLinks = saveUploadedPhotosSafely(payload["Inspiration Photos"], id);
   const enrichedPayload = Object.assign({}, payload, {
-    "Inspiration Photos": saveUploadedPhotosSafely(payload["Inspiration Photos"], id)
+    "Inspiration Photos": photoLinks,
+    "Photos": photoLinks
   });
 
   sheet.appendRow(orderConfig.headers.map((header) => {
     if (header === "id") return id;
-    if (header === "submittedAt") return submittedAt;
-    if (header === "status") return enrichedPayload.status || "New";
+    if (header === "Date") return submittedAt;
+    if (header === "Status") return enrichedPayload.status || enrichedPayload.Status || "New";
     if (header === "Notes") return enrichedPayload.notes || "";
-    return enrichedPayload[header] || "";
+    return getPayloadValue(enrichedPayload, header);
   }));
 
   return jsonResponse({ ok: true, id });
@@ -122,11 +150,38 @@ function getSheet(sheetName, headers) {
 }
 
 function ensureHeaders(sheet, headers) {
+  if (headers === DESIGN_HEADERS) {
+    renameHeaders(sheet);
+  }
+
   const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
   const missingHeaders = headers.filter((header) => existingHeaders.indexOf(header) === -1);
 
   if (missingHeaders.length) {
     sheet.getRange(1, existingHeaders.length + 1, 1, missingHeaders.length).setValues([missingHeaders]);
+  }
+}
+
+function renameHeaders(sheet) {
+  if (sheet.getLastRow() === 0) {
+    return;
+  }
+
+  const lastColumn = Math.max(sheet.getLastColumn(), 1);
+  const headerRange = sheet.getRange(1, 1, 1, lastColumn);
+  const headers = headerRange.getValues()[0];
+  let changed = false;
+  const renamedHeaders = headers.map((header) => {
+    if (DESIGN_HEADER_RENAMES[header]) {
+      changed = true;
+      return DESIGN_HEADER_RENAMES[header];
+    }
+
+    return header;
+  });
+
+  if (changed) {
+    headerRange.setValues([renamedHeaders]);
   }
 }
 
@@ -141,7 +196,7 @@ function moveCompletedCustomOrder(event) {
     return;
   }
 
-  const statusColumn = getHeaderColumn(sheet, "status");
+  const statusColumn = getHeaderColumn(sheet, "Status");
 
   if (event.range.getColumn() !== statusColumn) {
     return;
@@ -160,6 +215,12 @@ function moveCompletedCustomOrder(event) {
   completedSheet.appendRow(rowValues);
   completedSheet.getRange(completedSheet.getLastRow(), 1, 1, DESIGN_HEADERS.length).setVerticalAlignment("top");
   sheet.deleteRow(row);
+}
+
+function getPayloadValue(payload, header) {
+  const source = DESIGN_HEADER_SOURCES[header] || header;
+
+  return payload[header] || payload[source] || "";
 }
 
 function getHeaderColumn(sheet, headerName) {

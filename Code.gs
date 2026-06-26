@@ -5,26 +5,42 @@ const NOTIFICATION_EMAIL = "collectivelydelanie@gmail.com";
 const SPREADSHEET_ID = "1-WfsYXSF2_dHFQo8fxnWhNPxtEQNECKC4tmK66BUSh8";
 const INSPIRATION_PHOTO_FOLDER_ID = "1g28tfoPda3M8o-2rxsNOhGdBjNYZhshQ";
 const REQUESTED_DATE_COLUMN = 9;
-const ORDER_STATUS_HEADER = "Order Status";
+const ORDER_STATUS_HEADER = "Status";
 const COMPLETE_STATUSES = ["complete", "completed"];
 
 const DESIGN_HEADERS = [
-  "Date Submitted",
-  "Order Status",
-  "Full Name",
-  "Email Address",
+  "Date",
+  "Status",
+  "Name",
+  "Email",
   "Phone Number",
-  "Preferred Contact Method",
-  "Project Description",
-  "Preferred Font Name or Number",
-  "Requested Completion Date",
-  "Rush Order",
-  "Inspiration Photos",
-  "Inspiration Links",
-  "Quote Amount",
+  "Method",
+  "Description",
+  "Font",
+  "Due By",
+  "Rush",
+  "Photos",
+  "Links",
+  "Quote",
   "Payment Status",
-  "Internal Notes"
+  "Notes"
 ];
+
+const DESIGN_HEADER_RENAMES = {
+  "Date Submitted": "Date",
+  "Order Status": "Status",
+  "Full Name": "Name",
+  "Email Address": "Email",
+  "Preferred Contact Method": "Method",
+  "Project Description": "Description",
+  "Preferred Font Name or Number": "Font",
+  "Requested Completion Date": "Due By",
+  "Rush Order": "Rush",
+  "Inspiration Photos": "Photos",
+  "Inspiration Links": "Links",
+  "Quote Amount": "Quote",
+  "Internal Notes": "Notes"
+};
 
 const PEPTIDE_HEADERS = [
   "Date Submitted",
@@ -125,6 +141,7 @@ function setupSheetIfMissing_(sheetName, headers) {
   let sheet = spreadsheet.getSheetByName(sheetName);
 
   if (sheet) {
+    ensureHeaders_(sheet, headers);
     return sheet;
   }
 
@@ -163,6 +180,10 @@ function getOrderSheet_(orderConfig) {
 }
 
 function ensureHeaders_(sheet, headers) {
+  if (headers === DESIGN_HEADERS) {
+    renameHeaders_(sheet);
+  }
+
   const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
   const missingHeaders = headers.filter(function(header) {
     return existingHeaders.indexOf(header) === -1;
@@ -171,6 +192,30 @@ function ensureHeaders_(sheet, headers) {
   if (missingHeaders.length) {
     sheet.getRange(1, existingHeaders.length + 1, 1, missingHeaders.length).setValues([missingHeaders]);
     sheet.autoResizeColumns(1, existingHeaders.length + missingHeaders.length);
+  }
+}
+
+function renameHeaders_(sheet) {
+  if (sheet.getLastRow() === 0) {
+    return;
+  }
+
+  const lastColumn = Math.max(sheet.getLastColumn(), 1);
+  const headerRange = sheet.getRange(1, 1, 1, lastColumn);
+  const headers = headerRange.getValues()[0];
+  let changed = false;
+
+  const renamedHeaders = headers.map(function(header) {
+    if (DESIGN_HEADER_RENAMES[header]) {
+      changed = true;
+      return DESIGN_HEADER_RENAMES[header];
+    }
+
+    return header;
+  });
+
+  if (changed) {
+    headerRange.setValues([renamedHeaders]);
   }
 }
 
@@ -448,10 +493,20 @@ function sendNotification_(data, orderConfig) {
   const subject = "New " + orderConfig.label + " Request - " + (data["Full Name"] || "Website");
   const bodyFields = orderConfig.headers
     .filter(function(header) {
-      return ["Date Submitted", "Order Status", "Internal Notes", "Quote Amount", "Payment Status"].indexOf(header) === -1;
+      return [
+        "Date",
+        "Status",
+        "Notes",
+        "Quote",
+        "Payment Status",
+        "Date Submitted",
+        "Order Status",
+        "Internal Notes",
+        "Quote Amount"
+      ].indexOf(header) === -1;
     })
     .map(function(header) {
-      return header + ": " + (data[header] || "");
+      return header + ": " + valueForNotification_(data, header);
     });
 
   const body = [
@@ -473,4 +528,21 @@ function sendNotification_(data, orderConfig) {
   }
 
   MailApp.sendEmail(emailOptions);
+}
+
+function valueForNotification_(data, header) {
+  const sourceByHeader = {
+    "Name": "Full Name",
+    "Email": "Email Address",
+    "Method": "Preferred Contact Method",
+    "Description": "Project Description",
+    "Font": "Preferred Font Name or Number",
+    "Due By": "Requested Completion Date",
+    "Rush": "Rush Order",
+    "Photos": "Inspiration Photos",
+    "Links": "Inspiration Links"
+  };
+  const source = sourceByHeader[header] || header;
+
+  return data[source] || "";
 }
