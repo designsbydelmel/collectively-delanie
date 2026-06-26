@@ -29,9 +29,9 @@ const fileToUploadPayload = (file) => new Promise((resolve, reject) => {
   reader.readAsDataURL(file);
 });
 
-const formDataToPayload = async (form) => {
+const formDataToUrlSearchParams = async (form) => {
   const formData = new FormData(form);
-  const payload = {};
+  const payload = new URLSearchParams();
   const uploadInputs = Array.from(form.querySelectorAll('input[type="file"]'));
 
   uploadInputs.forEach((input) => {
@@ -39,13 +39,7 @@ const formDataToPayload = async (form) => {
   });
 
   formData.forEach((value, key) => {
-    const normalizedKey = key.replace(/\[\]$/, "");
-
-    if (payload[normalizedKey]) {
-      payload[normalizedKey] += `, ${value}`;
-    } else {
-      payload[normalizedKey] = value;
-    }
+    payload.append(key, value);
   });
 
   const uploadedPhotos = [];
@@ -59,7 +53,7 @@ const formDataToPayload = async (form) => {
   }
 
   if (uploadedPhotos.length) {
-    payload["Inspiration Photos"] = uploadedPhotos;
+    payload.set("Inspiration Photos", JSON.stringify(uploadedPhotos));
   }
 
   return payload;
@@ -126,15 +120,12 @@ orderForms.forEach((orderForm) => {
     }
 
     try {
-      const payload = await formDataToPayload(orderForm);
+      const payload = await formDataToUrlSearchParams(orderForm);
 
       await fetch(actionUrl, {
         method: "POST",
         mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
-        body: JSON.stringify(payload),
+        body: payload,
       });
 
       window.location.href = orderForm.dataset.thankYou || "order-thank-you.html";
