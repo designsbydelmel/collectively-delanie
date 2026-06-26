@@ -86,7 +86,13 @@ function setupOrderSheet() {
 }
 
 function authorizeDriveAccess() {
-  DriveApp.getFolderById(INSPIRATION_PHOTO_FOLDER_ID).getName();
+  const folder = DriveApp.getFolderById(INSPIRATION_PHOTO_FOLDER_ID);
+  const file = folder.createFile(
+    "collectively-delanie-drive-authorization-test.txt",
+    "This temporary file confirms Apps Script can save custom order photos."
+  );
+
+  file.setTrashed(true);
 }
 
 function onEdit(e) {
