@@ -1081,6 +1081,10 @@ footer p {
   text-align: center;
 }
 
+.custom-order-form label > .file-upload {
+  color: var(--ink);
+}
+
 .font-choice-panel {
   margin: 26px 0;
   padding: 24px;
