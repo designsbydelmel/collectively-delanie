@@ -128,6 +128,36 @@ function onEdit(event) {
   moveCompletedCustomOrder(event);
 }
 
+function installCompletedOrderTrigger() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const triggers = ScriptApp.getProjectTriggers();
+
+  triggers.forEach((trigger) => {
+    if (trigger.getHandlerFunction() === "moveCompletedCustomOrder") {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+
+  ScriptApp.newTrigger("moveCompletedCustomOrder")
+    .forSpreadsheet(spreadsheet)
+    .onEdit()
+    .create();
+}
+
+function moveCompletedOrdersNow() {
+  const sheet = getSheet(DESIGN_SHEET_NAME, DESIGN_HEADERS);
+  const statusColumn = getHeaderColumn(sheet, "Status");
+  const lastRow = sheet.getLastRow();
+
+  for (let row = lastRow; row >= 2; row--) {
+    const status = String(sheet.getRange(row, statusColumn).getValue() || "").trim().toLowerCase();
+
+    if (COMPLETE_STATUSES.indexOf(status) !== -1) {
+      moveCompletedCustomOrderRow(sheet, row);
+    }
+  }
+}
+
 function getSheet(sheetName, headers) {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = spreadsheet.getSheetByName(sheetName);
@@ -208,8 +238,11 @@ function moveCompletedCustomOrder(event) {
     return;
   }
 
+  moveCompletedCustomOrderRow(sheet, event.range.getRow());
+}
+
+function moveCompletedCustomOrderRow(sheet, row) {
   const completedSheet = getSheet(COMPLETED_DESIGN_SHEET_NAME, DESIGN_HEADERS);
-  const row = event.range.getRow();
   const rowValues = sheet.getRange(row, 1, 1, DESIGN_HEADERS.length).getValues()[0];
 
   completedSheet.appendRow(rowValues);

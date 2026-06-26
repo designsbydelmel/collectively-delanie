@@ -115,6 +115,36 @@ function onEdit(e) {
   moveCompletedCustomOrder_(e);
 }
 
+function installCompletedOrderTrigger() {
+  const spreadsheet = getSpreadsheet_();
+  const triggers = ScriptApp.getProjectTriggers();
+
+  triggers.forEach(function(trigger) {
+    if (trigger.getHandlerFunction() === "moveCompletedCustomOrder_") {
+      ScriptApp.deleteTrigger(trigger);
+    }
+  });
+
+  ScriptApp.newTrigger("moveCompletedCustomOrder_")
+    .forSpreadsheet(spreadsheet)
+    .onEdit()
+    .create();
+}
+
+function moveCompletedOrdersNow() {
+  const sheet = getOrderSheet_(getDesignOrderConfig_());
+  const statusColumn = getHeaderColumn_(sheet, ORDER_STATUS_HEADER);
+  const lastRow = sheet.getLastRow();
+
+  for (let row = lastRow; row >= 2; row--) {
+    const status = String(sheet.getRange(row, statusColumn).getValue() || "").trim().toLowerCase();
+
+    if (COMPLETE_STATUSES.indexOf(status) !== -1) {
+      moveCompletedCustomOrderRow_(sheet, row);
+    }
+  }
+}
+
 function setupCompletedCustomOrdersSheet_() {
   return setupSheetIfMissing_(COMPLETED_DESIGN_SHEET_NAME, DESIGN_HEADERS);
 }
@@ -242,8 +272,11 @@ function moveCompletedCustomOrder_(e) {
     return;
   }
 
+  moveCompletedCustomOrderRow_(sheet, e.range.getRow());
+}
+
+function moveCompletedCustomOrderRow_(sheet, row) {
   const completedSheet = setupCompletedCustomOrdersSheet_();
-  const row = e.range.getRow();
   const rowValues = sheet.getRange(row, 1, 1, DESIGN_HEADERS.length).getValues()[0];
 
   completedSheet.appendRow(rowValues);
