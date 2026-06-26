@@ -47,7 +47,7 @@ function doPost(e) {
     const orderConfig = getOrderConfig_(data);
 
     if (orderConfig.label === "Custom Order") {
-      data["Inspiration Photos"] = saveUploadedPhotos_(data["Inspiration Photos"], data["Full Name"]);
+      data["Inspiration Photos"] = saveUploadedPhotosSafely_(data["Inspiration Photos"], data["Full Name"]);
     }
 
     const sheet = getOrderSheet_(orderConfig);
@@ -83,6 +83,10 @@ function setupOrderSheet() {
   setupSheetIfMissing_(DESIGN_SHEET_NAME, DESIGN_HEADERS);
   setupSheetIfMissing_(COMPLETED_DESIGN_SHEET_NAME, DESIGN_HEADERS);
   setupSheetIfMissing_(PEPTIDE_SHEET_NAME, PEPTIDE_HEADERS);
+}
+
+function authorizeDriveAccess() {
+  DriveApp.getFolderById(INSPIRATION_PHOTO_FOLDER_ID).getName();
 }
 
 function onEdit(e) {
@@ -335,6 +339,18 @@ function getDesignOrderConfig_() {
       ];
     }
   };
+}
+
+function saveUploadedPhotosSafely_(photos, customerName) {
+  if (!photos || !photos.length) {
+    return "";
+  }
+
+  try {
+    return saveUploadedPhotos_(photos, customerName);
+  } catch (error) {
+    return "Photo upload failed. Run authorizeDriveAccess in Apps Script, then ask customer to resend photo. Error: " + error;
+  }
 }
 
 function saveUploadedPhotos_(photos, customerName) {

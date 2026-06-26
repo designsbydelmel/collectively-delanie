@@ -43,7 +43,7 @@ function doPost(event) {
   const id = payload.id || Utilities.getUuid();
   const submittedAt = payload.submittedAt || new Date().toISOString();
   const enrichedPayload = Object.assign({}, payload, {
-    "Inspiration Photos": saveUploadedPhotos(payload["Inspiration Photos"], id)
+    "Inspiration Photos": saveUploadedPhotosSafely(payload["Inspiration Photos"], id)
   });
 
   sheet.appendRow(orderConfig.headers.map((header) => {
@@ -84,6 +84,10 @@ function doGet(event) {
     .reverse();
 
   return jsonResponse({ ok: true, responses: rows }, callback);
+}
+
+function authorizeDriveAccess() {
+  DriveApp.getFolderById(INSPIRATION_PHOTO_FOLDER_ID).getName();
 }
 
 function onEdit(event) {
@@ -197,6 +201,18 @@ function normalizeParameters(parameters) {
     payload[normalizedKey] = Array.isArray(value) ? value.join(", ") : value;
     return payload;
   }, {});
+}
+
+function saveUploadedPhotosSafely(photos, orderId) {
+  if (!photos) {
+    return "";
+  }
+
+  try {
+    return saveUploadedPhotos(photos, orderId);
+  } catch (error) {
+    return "Photo upload failed. Run authorizeDriveAccess in Apps Script, then ask customer to resend photo. Error: " + error;
+  }
 }
 
 function saveUploadedPhotos(photos, orderId) {
