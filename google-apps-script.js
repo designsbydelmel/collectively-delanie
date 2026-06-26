@@ -1,6 +1,7 @@
 const DESIGN_SHEET_NAME = "Custom Orders";
 const COMPLETED_DESIGN_SHEET_NAME = "Completed Custom Orders";
 const PEPTIDE_SHEET_NAME = "Peptide Orders";
+const INSPIRATION_PHOTO_FOLDER_ID = "1g28tfoPda3M8o-2rxsNOhGdBjNYZhshQ";
 const ADMIN_KEY_PROPERTY = "ADMIN_KEY";
 const COMPLETE_STATUSES = ["complete", "completed"];
 
@@ -16,6 +17,7 @@ const DESIGN_HEADERS = [
   "Preferred Font Name or Number",
   "Requested Completion Date",
   "Rush Order",
+  "Inspiration Photos",
   "Inspiration Links",
   "Acknowledgement",
   "Notes"
@@ -40,13 +42,16 @@ function doPost(event) {
   const sheet = getSheet(orderConfig.sheetName, orderConfig.headers);
   const id = payload.id || Utilities.getUuid();
   const submittedAt = payload.submittedAt || new Date().toISOString();
+  const enrichedPayload = Object.assign({}, payload, {
+    "Inspiration Photos": saveUploadedPhotos(payload["Inspiration Photos"], id)
+  });
 
   sheet.appendRow(orderConfig.headers.map((header) => {
     if (header === "id") return id;
     if (header === "submittedAt") return submittedAt;
-    if (header === "status") return payload.status || "New";
-    if (header === "Notes") return payload.notes || "";
-    return payload[header] || "";
+    if (header === "status") return enrichedPayload.status || "New";
+    if (header === "Notes") return enrichedPayload.notes || "";
+    return enrichedPayload[header] || "";
   }));
 
   return jsonResponse({ ok: true, id });
@@ -99,9 +104,20 @@ function getSheet(sheetName, headers) {
   if (needsHeaders) {
     sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
     sheet.setFrozenRows(1);
+  } else {
+    ensureHeaders(sheet, headers);
   }
 
   return sheet;
+}
+
+function ensureHeaders(sheet, headers) {
+  const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
+  const missingHeaders = headers.filter((header) => existingHeaders.indexOf(header) === -1);
+
+  if (missingHeaders.length) {
+    sheet.getRange(1, existingHeaders.length + 1, 1, missingHeaders.length).setValues([missingHeaders]);
+  }
 }
 
 function moveCompletedCustomOrder(event) {
@@ -181,6 +197,42 @@ function normalizeParameters(parameters) {
     payload[normalizedKey] = Array.isArray(value) ? value.join(", ") : value;
     return payload;
   }, {});
+}
+
+function saveUploadedPhotos(photos, orderId) {
+  if (!photos) {
+    return "";
+  }
+
+  const photoList = Array.isArray(photos) ? photos : [photos];
+  const folder = DriveApp.getFolderById(INSPIRATION_PHOTO_FOLDER_ID);
+
+  return photoList
+    .filter((photo) => photo && photo.data)
+    .map((photo, index) => {
+      const extension = getExtension(photo.name, photo.type);
+      const fileName = `${orderId}-inspiration-${index + 1}${extension}`;
+      const bytes = Utilities.base64Decode(photo.data);
+      const blob = Utilities.newBlob(bytes, photo.type || "application/octet-stream", fileName);
+      const file = folder.createFile(blob);
+
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      return file.getUrl();
+    })
+    .join(", ");
+}
+
+function getExtension(fileName, mimeType) {
+  const match = String(fileName || "").match(/\.[a-z0-9]+$/i);
+
+  if (match) {
+    return match[0];
+  }
+
+  if (mimeType === "image/png") return ".png";
+  if (mimeType === "image/webp") return ".webp";
+  if (mimeType === "image/gif") return ".gif";
+  return ".jpg";
 }
 
 function isAuthorized(key) {

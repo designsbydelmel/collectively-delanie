@@ -2,7 +2,8 @@ const DESIGN_SHEET_NAME = "Custom Orders";
 const COMPLETED_DESIGN_SHEET_NAME = "Completed Custom Orders";
 const PEPTIDE_SHEET_NAME = "Peptide Orders";
 const NOTIFICATION_EMAIL = "collectivelydelanie@gmail.com";
-const SPREADSHEET_ID = "PASTE_YOUR_GOOGLE_SHEET_ID_HERE";
+const SPREADSHEET_ID = "1-WfsYXSF2_dHFQo8fxnWhNPxtEQNECKC4tmK66BUSh8";
+const INSPIRATION_PHOTO_FOLDER_ID = "1g28tfoPda3M8o-2rxsNOhGdBjNYZhshQ";
 const REQUESTED_DATE_COLUMN = 9;
 const ORDER_STATUS_HEADER = "Order Status";
 const COMPLETE_STATUSES = ["complete", "completed"];
@@ -18,6 +19,7 @@ const DESIGN_HEADERS = [
   "Preferred Font Name or Number",
   "Requested Completion Date",
   "Rush Order",
+  "Inspiration Photos",
   "Inspiration Links",
   "Quote Amount",
   "Payment Status",
@@ -43,6 +45,11 @@ function doPost(e) {
   try {
     const data = normalizeSubmission_(e);
     const orderConfig = getOrderConfig_(data);
+
+    if (orderConfig.label === "Custom Order") {
+      data["Inspiration Photos"] = saveUploadedPhotos_(data["Inspiration Photos"], data["Full Name"]);
+    }
+
     const sheet = getOrderSheet_(orderConfig);
 
     sheet.appendRow(orderConfig.toRow(data));
@@ -138,9 +145,23 @@ function getOrderSheet_(orderConfig) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(orderConfig.headers);
     sheet.setFrozenRows(1);
+  } else {
+    ensureHeaders_(sheet, orderConfig.headers);
   }
 
   return sheet;
+}
+
+function ensureHeaders_(sheet, headers) {
+  const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
+  const missingHeaders = headers.filter(function(header) {
+    return existingHeaders.indexOf(header) === -1;
+  });
+
+  if (missingHeaders.length) {
+    sheet.getRange(1, existingHeaders.length + 1, 1, missingHeaders.length).setValues([missingHeaders]);
+    sheet.autoResizeColumns(1, existingHeaders.length + missingHeaders.length);
+  }
 }
 
 function moveCompletedCustomOrder_(e) {
@@ -202,6 +223,26 @@ function getSpreadsheet_() {
 }
 
 function normalizeSubmission_(e) {
+  const jsonData = parseJsonSubmission_(e);
+
+  if (jsonData) {
+    return {
+      "Order Type": jsonData["Order Type"] || "",
+      "Full Name": jsonData["Full Name"] || "",
+      "Email Address": jsonData["Email Address"] || "",
+      "Phone Number": jsonData["Phone Number"] || "",
+      "Preferred Contact Method": jsonData["Preferred Contact Method"] || "",
+      "Project Description": jsonData["Project Description"] || "",
+      "Preferred Font Name or Number": jsonData["Preferred Font Name or Number"] || "",
+      "Requested Completion Date": jsonData["Requested Completion Date"] || "",
+      "Rush Order": jsonData["Rush Order"] || "",
+      "Inspiration Photos": jsonData["Inspiration Photos"] || [],
+      "Inspiration Links": jsonData["Inspiration Links"] || "",
+      "Peptides": jsonData["Peptides"] || "",
+      "Goals or Questions": jsonData["Goals or Questions"] || ""
+    };
+  }
+
   const parameters = e && e.parameter ? e.parameter : {};
   const multiParameters = e && e.parameters ? e.parameters : {};
 
@@ -215,10 +256,37 @@ function normalizeSubmission_(e) {
     "Preferred Font Name or Number": value_(parameters, "Preferred Font Name or Number"),
     "Requested Completion Date": value_(parameters, "Requested Completion Date"),
     "Rush Order": value_(parameters, "Rush Order"),
+    "Inspiration Photos": parseUploadedPhotos_(parameters),
     "Inspiration Links": value_(parameters, "Inspiration Links"),
     "Peptides": listValue_(multiParameters, parameters, "Peptides[]"),
     "Goals or Questions": value_(parameters, "Goals or Questions")
   };
+}
+
+function parseJsonSubmission_(e) {
+  if (!e || !e.postData || !e.postData.contents) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(e.postData.contents);
+  } catch (error) {
+    return null;
+  }
+}
+
+function parseUploadedPhotos_(parameters) {
+  const photos = parameters["Inspiration Photos"];
+
+  if (!photos) {
+    return [];
+  }
+
+  try {
+    return typeof photos === "string" ? JSON.parse(photos) : photos;
+  } catch (error) {
+    return [];
+  }
 }
 
 function value_(parameters, key) {
@@ -259,6 +327,7 @@ function getDesignOrderConfig_() {
         data["Preferred Font Name or Number"],
         data["Requested Completion Date"],
         data["Rush Order"],
+        data["Inspiration Photos"],
         data["Inspiration Links"],
         "",
         "Not Sent",
@@ -266,6 +335,45 @@ function getDesignOrderConfig_() {
       ];
     }
   };
+}
+
+function saveUploadedPhotos_(photos, customerName) {
+  if (!photos || !photos.length) {
+    return "";
+  }
+
+  const folder = DriveApp.getFolderById(INSPIRATION_PHOTO_FOLDER_ID);
+  const safeName = String(customerName || "custom-order").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "custom-order";
+  const timestamp = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyyMMdd-HHmmss");
+
+  return photos
+    .filter(function(photo) {
+      return photo && photo.data;
+    })
+    .map(function(photo, index) {
+      const extension = getFileExtension_(photo.name, photo.type);
+      const fileName = safeName + "-" + timestamp + "-inspiration-" + (index + 1) + extension;
+      const bytes = Utilities.base64Decode(photo.data);
+      const blob = Utilities.newBlob(bytes, photo.type || "application/octet-stream", fileName);
+      const file = folder.createFile(blob);
+
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      return file.getUrl();
+    })
+    .join(", ");
+}
+
+function getFileExtension_(fileName, mimeType) {
+  const match = String(fileName || "").match(/\.[a-z0-9]+$/i);
+
+  if (match) {
+    return match[0];
+  }
+
+  if (mimeType === "image/png") return ".png";
+  if (mimeType === "image/webp") return ".webp";
+  if (mimeType === "image/gif") return ".gif";
+  return ".jpg";
 }
 
 function getPeptideOrderConfig_() {

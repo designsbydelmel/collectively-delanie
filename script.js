@@ -12,6 +12,59 @@ const wellnessCarousel = document.querySelector("[data-carousel]");
 const siteConfig = window.COLLECTIVELY_DELANIE_CONFIG || {};
 const maxUploadBytes = 10 * 1024 * 1024;
 
+const fileToUploadPayload = (file) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    const result = String(reader.result || "");
+
+    resolve({
+      name: file.name,
+      type: file.type || "application/octet-stream",
+      data: result.split(",")[1] || ""
+    });
+  };
+
+  reader.onerror = () => reject(reader.error);
+  reader.readAsDataURL(file);
+});
+
+const formDataToPayload = async (form) => {
+  const formData = new FormData(form);
+  const payload = {};
+  const uploadInputs = Array.from(form.querySelectorAll('input[type="file"]'));
+
+  uploadInputs.forEach((input) => {
+    formData.delete(input.name);
+  });
+
+  formData.forEach((value, key) => {
+    const normalizedKey = key.replace(/\[\]$/, "");
+
+    if (payload[normalizedKey]) {
+      payload[normalizedKey] += `, ${value}`;
+    } else {
+      payload[normalizedKey] = value;
+    }
+  });
+
+  const uploadedPhotos = [];
+
+  for (const input of uploadInputs) {
+    const files = Array.from(input.files || []);
+
+    for (const file of files) {
+      uploadedPhotos.push(await fileToUploadPayload(file));
+    }
+  }
+
+  if (uploadedPhotos.length) {
+    payload["Inspiration Photos"] = uploadedPhotos;
+  }
+
+  return payload;
+};
+
 if (menuButton && siteNav) {
   menuButton.addEventListener("click", () => {
     const isOpen = siteNav.classList.toggle("open");
@@ -46,6 +99,17 @@ orderForms.forEach((orderForm) => {
       return;
     }
 
+    const uploadInputs = Array.from(orderForm.querySelectorAll('input[type="file"]'));
+    const totalUploadBytes = uploadInputs.reduce((total, input) => {
+      return total + Array.from(input.files || []).reduce((sum, file) => sum + file.size, 0);
+    }, 0);
+
+    if (totalUploadBytes > maxUploadBytes) {
+      event.preventDefault();
+      alert("Photos exceed the 10MB combined limit. Please choose smaller files.");
+      return;
+    }
+
     event.preventDefault();
 
     if (!actionUrl) {
@@ -62,10 +126,15 @@ orderForms.forEach((orderForm) => {
     }
 
     try {
+      const payload = await formDataToPayload(orderForm);
+
       await fetch(actionUrl, {
         method: "POST",
         mode: "no-cors",
-        body: new URLSearchParams(new FormData(orderForm)),
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload),
       });
 
       window.location.href = orderForm.dataset.thankYou || "order-thank-you.html";
