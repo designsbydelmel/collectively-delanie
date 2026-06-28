@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Start an aesthetics order inquiry with Collectively Delanie.">
+  <title>Aesthetics Order | Collectively Delanie</title>
+  <link rel="icon" href="assets/collectively-delanie-logo.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="order-page aesthetics-order-page">
+  <header class="site-header">
+    <a class="site-logo" href="index.html" aria-label="Collectively Delanie home">
+      <img src="assets/collectively-delanie-logo.png" alt="Collectively Delanie">
+    </a>
+
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+      <span class="sr-only">Open navigation</span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <a href="index.html#brands">The Collective</a>
+      <a href="projects.html">Past Projects</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="custom-order.html">Design Order</a>
+      <a href="peptide-order.html">Peptide Order</a>
+      <a href="aesthetics-order.html" aria-current="page">Aesthetics Order</a>
+      <a href="payment.html">Payment</a>
+      <a href="index.html#connect">Connect</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="order-hero aesthetics-order-hero">
+      <div>
+        <img class="order-brand-logo" src="assets/collectively-delanie-logo.png" alt="Collectively Delanie">
+        <h1>Start your aesthetics <span class="script-accent">order.</span></h1>
+      </div>
+    </section>
+
+    <section class="order-layout aesthetics-order-layout">
+      <aside class="order-intro">
+        <p class="section-kicker">How it works</p>
+        <h2>Soft, thoughtful support from the first message.</h2>
+        <p>Share what you are interested in, your preferred contact method, and any questions you would like reviewed before next steps.</p>
+        <div class="order-process">
+          <div><span>01</span><p>Submit your inquiry</p></div>
+          <div><span>02</span><p>Review options and next steps</p></div>
+          <div><span>03</span><p>Receive personalized follow-up</p></div>
+        </div>
+      </aside>
+
+      <form class="custom-order-form aesthetics-order-card" action="" method="POST" data-form-type="aesthetics" data-action-source="site-config" data-thank-you="payment.html">
+        <input type="hidden" name="Order Type" value="Aesthetics Order">
+
+        <div class="form-heading">
+          <h2>Aesthetics Order</h2>
+          <p>Please complete the form below to start your aesthetics order inquiry.</p>
+        </div>
+
+        <fieldset>
+          <legend>Contact information</legend>
+          <div class="form-grid">
+            <label>
+              Full Name <span>*</span>
+              <input type="text" name="Full Name" autocomplete="name" placeholder="Enter your full name" required>
+            </label>
+            <label>
+              Phone Number <span>*</span>
+              <input type="tel" name="Phone Number" autocomplete="tel" placeholder="Enter your phone number" required>
+            </label>
+            <label>
+              Email Address <span>*</span>
+              <input type="email" name="Email Address" autocomplete="email" placeholder="Enter your email address" required>
+            </label>
+          </div>
+
+          <div class="choice-group">
+            <p>Preferred Method of Contact <span>*</span></p>
+            <div class="choice-row peptide-contact-row">
+              <label class="choice"><input type="radio" name="Preferred Contact Method" value="Phone Call" required> <span>Phone Call</span></label>
+              <label class="choice"><input type="radio" name="Preferred Contact Method" value="Text Message"> <span>Text Message</span></label>
+              <label class="choice"><input type="radio" name="Preferred Contact Method" value="Email"> <span>Email</span></label>
+            </div>
+            <small>Please select your preferred method of contact.</small>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Aesthetics interests</legend>
+          <p class="acknowledgement-intro">Please select all options you would like to discuss.</p>
+          <div class="aesthetics-service-list">
+            <label class="choice"><input type="checkbox" name="Aesthetics Interests[]" value="Consultation"> <span>Consultation</span></label>
+            <label class="choice"><input type="checkbox" name="Aesthetics Interests[]" value="Skin Rejuvenation"> <span>Skin Rejuvenation</span></label>
+            <label class="choice"><input type="checkbox" name="Aesthetics Interests[]" value="Injectables"> <span>Injectables</span></label>
+            <label class="choice"><input type="checkbox" name="Aesthetics Interests[]" value="Wellness Add-On"> <span>Wellness Add-On</span></label>
+            <label class="choice"><input type="checkbox" name="Aesthetics Interests[]" value="Not Sure Yet"> <span>Not Sure Yet</span></label>
+            <label class="choice"><input type="checkbox" name="Aesthetics Interests[]" value="Other"> <span>Other</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Additional notes</legend>
+          <label>
+            Goals or Questions
+            <small>Share anything you would like Delanie to know before following up.</small>
+            <textarea name="Goals or Questions" rows="5" placeholder="Tell us what you are hoping to support or learn more about."></textarea>
+          </label>
+          <p class="submission-note">Aesthetics education and ordering support require appropriate review and are not a substitute for emergency or primary medical care.</p>
+        </fieldset>
+
+        <button class="button button-primary submit-order" type="submit">Submit Order</button>
+        <p class="submission-note aesthetics-secure-note">Your information will only be used to follow up about your aesthetics inquiry.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <a class="site-logo footer-logo" href="index.html">
+      <img src="assets/collectively-delanie-logo.png" alt="Collectively Delanie">
+    </a>
+    <p>Creativity, wellness, and everything in between.</p>
+    <p class="copyright">© <span id="year"></span> Collectively Delanie</p>
+  </footer>
+
+  <script src="site-config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
