@@ -347,6 +347,7 @@ function normalizeSubmission_(e) {
   if (jsonData) {
     return {
       "Order Type": jsonData["Order Type"] || "",
+      "Form Type": jsonData["Form Type"] || "",
       "Full Name": jsonData["Full Name"] || "",
       "Email Address": jsonData["Email Address"] || "",
       "Phone Number": jsonData["Phone Number"] || "",
@@ -368,6 +369,7 @@ function normalizeSubmission_(e) {
 
   return {
     "Order Type": value_(parameters, "Order Type"),
+    "Form Type": value_(parameters, "Form Type"),
     "Full Name": value_(parameters, "Full Name"),
     "Email Address": value_(parameters, "Email Address"),
     "Phone Number": value_(parameters, "Phone Number"),
@@ -422,15 +424,34 @@ function listValue_(multiParameters, parameters, key) {
 }
 
 function getOrderConfig_(data) {
-  if (data["Order Type"] === "Peptide Order") {
+  if (isPeptideOrder_(data)) {
     return getPeptideOrderConfig_();
   }
 
-  if (data["Order Type"] === "Aesthetics Order") {
+  if (isAestheticOrder_(data)) {
     return getAestheticOrderConfig_();
   }
 
   return getDesignOrderConfig_();
+}
+
+function isPeptideOrder_(data) {
+  return normalizeOrderType_(data["Order Type"]) === "peptideorder";
+}
+
+function isAestheticOrder_(data) {
+  const orderType = normalizeOrderType_(data["Order Type"]);
+  const formType = normalizeOrderType_(data["Form Type"]);
+
+  return orderType === "aestheticsorder"
+    || orderType === "aestheticorder"
+    || formType === "aesthetics"
+    || formType === "aesthetic"
+    || Boolean(data["Aesthetics Interests"]);
+}
+
+function normalizeOrderType_(value) {
+  return String(value || "").toLowerCase().replace(/[^a-z]/g, "");
 }
 
 function getDesignOrderConfig_() {

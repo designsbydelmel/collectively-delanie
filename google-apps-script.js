@@ -285,14 +285,14 @@ function getHeaderColumn(sheet, headerName) {
 }
 
 function getOrderConfig(payload) {
-  if (payload["Order Type"] === "Peptide Order") {
+  if (normalizeOrderType(payload["Order Type"]) === "peptideorder") {
     return {
       sheetName: PEPTIDE_SHEET_NAME,
       headers: PEPTIDE_HEADERS
     };
   }
 
-  if (payload["Order Type"] === "Aesthetics Order") {
+  if (isAestheticOrder(payload)) {
     return {
       sheetName: AESTHETIC_SHEET_NAME,
       headers: AESTHETIC_HEADERS
@@ -303,6 +303,21 @@ function getOrderConfig(payload) {
     sheetName: DESIGN_SHEET_NAME,
     headers: DESIGN_HEADERS
   };
+}
+
+function isAestheticOrder(payload) {
+  const orderType = normalizeOrderType(payload["Order Type"]);
+  const formType = normalizeOrderType(payload["Form Type"]);
+
+  return orderType === "aestheticsorder"
+    || orderType === "aestheticorder"
+    || formType === "aesthetics"
+    || formType === "aesthetic"
+    || Boolean(payload["Aesthetics Interests"]);
+}
+
+function normalizeOrderType(value) {
+  return String(value || "").toLowerCase().replace(/[^a-z]/g, "");
 }
 
 function parsePayload(event) {
