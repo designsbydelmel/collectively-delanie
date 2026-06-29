@@ -542,7 +542,7 @@ function getAestheticOrderConfig_() {
     sheetName: AESTHETIC_SHEET_NAME,
     headers: AESTHETIC_HEADERS,
     sortByRequestedDate: false,
-    thankYouUrl: "https://www.collectivelydelanie.com/payment.html",
+    thankYouUrl: "https://www.collectivelydelanie.com/aesthetics-thank-you.html",
     toRow: function(data) {
       return [
         new Date(),
