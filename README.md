@@ -19,7 +19,7 @@ The custom order page sends submissions to the Google Apps Script order tracker:
 
 `https://script.google.com/macros/s/AKfycbzHGJWOJYbEYb-hNgZvMU2CluuukOKEhD_TtEiIMaak7_Lf10r0Qb9ftFdWAZHhPRJgmg/exec`
 
-The Apps Script saves submissions into the Google Sheet and sends email notifications to `collectivelydelanie@gmail.com`.
+The Apps Script saves Design, Peptide, and Aesthetics submissions into the Google Sheet and sends email notifications to `collectivelydelanie@gmail.com`.
 
 Photo uploads are not connected to Google Drive yet. The form currently asks customers to paste shareable inspiration links instead.
 

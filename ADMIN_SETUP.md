@@ -60,6 +60,7 @@ window.COLLECTIVELY_DELANIE_CONFIG = {
 1. Submit a test order on `custom-order.html`.
 2. Check that the normal FormSubmit email arrives.
 3. Open the Google Sheet and confirm a new row appeared.
+4. Run `setupOrderSheet()` in Apps Script, or submit a test Aesthetics Order, to create the `Aesthetic Orders` tab.
 4. Open `https://www.collectivelydelanie.com/admin.html`.
 5. Enter your private admin key.
 6. Click `Open Dashboard`.

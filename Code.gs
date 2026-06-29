@@ -1,6 +1,7 @@
 const DESIGN_SHEET_NAME = "Custom Orders";
 const COMPLETED_DESIGN_SHEET_NAME = "Completed Custom Orders";
 const PEPTIDE_SHEET_NAME = "Peptide Orders";
+const AESTHETIC_SHEET_NAME = "Aesthetic Orders";
 const NOTIFICATION_EMAIL = "collectivelydelanie@gmail.com";
 const SPREADSHEET_ID = "1-WfsYXSF2_dHFQo8fxnWhNPxtEQNECKC4tmK66BUSh8";
 const INSPIRATION_PHOTO_FOLDER_ID = "1g28tfoPda3M8o-2rxsNOhGdBjNYZhshQ";
@@ -54,6 +55,18 @@ const PEPTIDE_HEADERS = [
   "Internal Notes"
 ];
 
+const AESTHETIC_HEADERS = [
+  "Date Submitted",
+  "Order Status",
+  "Full Name",
+  "Email Address",
+  "Phone Number",
+  "Preferred Contact Method",
+  "Aesthetics Interests",
+  "Goals or Questions",
+  "Internal Notes"
+];
+
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
@@ -99,6 +112,7 @@ function setupOrderSheet() {
   setupSheetIfMissing_(DESIGN_SHEET_NAME, DESIGN_HEADERS);
   setupSheetIfMissing_(COMPLETED_DESIGN_SHEET_NAME, DESIGN_HEADERS);
   setupSheetIfMissing_(PEPTIDE_SHEET_NAME, PEPTIDE_HEADERS);
+  setupSheetIfMissing_(AESTHETIC_SHEET_NAME, AESTHETIC_HEADERS);
 }
 
 function authorizeDriveAccess() {
@@ -159,6 +173,23 @@ function setupPeptideOrderSheet() {
     .setBackground("#f7f2ed")
     .setFontColor("#332c2f");
   sheet.autoResizeColumns(1, PEPTIDE_HEADERS.length);
+  sheet.getRange("B:B").setDataValidation(
+    SpreadsheetApp.newDataValidation()
+      .requireValueInList(["New", "Contacted", "Reviewed", "Followed Up", "Complete", "Cancelled"], true)
+      .build()
+  );
+}
+
+function setupAestheticOrderSheet() {
+  const orderConfig = getAestheticOrderConfig_();
+  const sheet = getOrderSheet_(orderConfig);
+  sheet.getRange(1, 1, 1, AESTHETIC_HEADERS.length).setValues([AESTHETIC_HEADERS]);
+  sheet.setFrozenRows(1);
+  sheet.getRange(1, 1, 1, AESTHETIC_HEADERS.length)
+    .setFontWeight("bold")
+    .setBackground("#f7f2ed")
+    .setFontColor("#332c2f");
+  sheet.autoResizeColumns(1, AESTHETIC_HEADERS.length);
   sheet.getRange("B:B").setDataValidation(
     SpreadsheetApp.newDataValidation()
       .requireValueInList(["New", "Contacted", "Reviewed", "Followed Up", "Complete", "Cancelled"], true)
@@ -327,6 +358,7 @@ function normalizeSubmission_(e) {
       "Inspiration Photos": jsonData["Inspiration Photos"] || [],
       "Inspiration Links": jsonData["Inspiration Links"] || "",
       "Peptides": jsonData["Peptides"] || "",
+      "Aesthetics Interests": jsonData["Aesthetics Interests"] || "",
       "Goals or Questions": jsonData["Goals or Questions"] || ""
     };
   }
@@ -347,6 +379,7 @@ function normalizeSubmission_(e) {
     "Inspiration Photos": parseUploadedPhotos_(parameters),
     "Inspiration Links": value_(parameters, "Inspiration Links"),
     "Peptides": listValue_(multiParameters, parameters, "Peptides[]"),
+    "Aesthetics Interests": listValue_(multiParameters, parameters, "Aesthetics Interests[]"),
     "Goals or Questions": value_(parameters, "Goals or Questions")
   };
 }
@@ -391,6 +424,10 @@ function listValue_(multiParameters, parameters, key) {
 function getOrderConfig_(data) {
   if (data["Order Type"] === "Peptide Order") {
     return getPeptideOrderConfig_();
+  }
+
+  if (data["Order Type"] === "Aesthetics Order") {
+    return getAestheticOrderConfig_();
   }
 
   return getDesignOrderConfig_();
@@ -492,6 +529,29 @@ function getPeptideOrderConfig_() {
         data["Phone Number"],
         data["Preferred Contact Method"],
         data["Peptides"],
+        data["Goals or Questions"],
+        ""
+      ];
+    }
+  };
+}
+
+function getAestheticOrderConfig_() {
+  return {
+    label: "Aesthetics Order",
+    sheetName: AESTHETIC_SHEET_NAME,
+    headers: AESTHETIC_HEADERS,
+    sortByRequestedDate: false,
+    thankYouUrl: "https://www.collectivelydelanie.com/payment.html",
+    toRow: function(data) {
+      return [
+        new Date(),
+        "New",
+        data["Full Name"],
+        data["Email Address"],
+        data["Phone Number"],
+        data["Preferred Contact Method"],
+        data["Aesthetics Interests"],
         data["Goals or Questions"],
         ""
       ];

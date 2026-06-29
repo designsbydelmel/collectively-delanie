@@ -1,6 +1,7 @@
 const DESIGN_SHEET_NAME = "Custom Orders";
 const COMPLETED_DESIGN_SHEET_NAME = "Completed Custom Orders";
 const PEPTIDE_SHEET_NAME = "Peptide Orders";
+const AESTHETIC_SHEET_NAME = "Aesthetic Orders";
 const INSPIRATION_PHOTO_FOLDER_ID = "1g28tfoPda3M8o-2rxsNOhGdBjNYZhshQ";
 const ADMIN_KEY_PROPERTY = "ADMIN_KEY";
 const COMPLETE_STATUSES = ["complete", "completed"];
@@ -62,6 +63,20 @@ const PEPTIDE_HEADERS = [
   "Notes"
 ];
 
+const AESTHETIC_HEADERS = [
+  "id",
+  "submittedAt",
+  "status",
+  "Order Type",
+  "Full Name",
+  "Email Address",
+  "Phone Number",
+  "Preferred Contact Method",
+  "Aesthetics Interests",
+  "Goals or Questions",
+  "Notes"
+];
+
 function doPost(event) {
   const payload = parsePayload(event);
   const orderConfig = getOrderConfig(payload);
@@ -99,7 +114,9 @@ function doGet(event) {
 
   const orderConfig = params.type === "peptide"
     ? { sheetName: PEPTIDE_SHEET_NAME, headers: PEPTIDE_HEADERS }
-    : { sheetName: DESIGN_SHEET_NAME, headers: DESIGN_HEADERS };
+    : params.type === "aesthetics"
+      ? { sheetName: AESTHETIC_SHEET_NAME, headers: AESTHETIC_HEADERS }
+      : { sheetName: DESIGN_SHEET_NAME, headers: DESIGN_HEADERS };
   const sheet = getSheet(orderConfig.sheetName, orderConfig.headers);
   const values = sheet.getDataRange().getValues();
   const headers = values.shift() || [];
@@ -272,6 +289,13 @@ function getOrderConfig(payload) {
     return {
       sheetName: PEPTIDE_SHEET_NAME,
       headers: PEPTIDE_HEADERS
+    };
+  }
+
+  if (payload["Order Type"] === "Aesthetics Order") {
+    return {
+      sheetName: AESTHETIC_SHEET_NAME,
+      headers: AESTHETIC_HEADERS
     };
   }
 
