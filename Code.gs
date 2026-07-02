@@ -243,6 +243,8 @@ function getOrderSheet_(orderConfig) {
 function ensureHeaders_(sheet, headers) {
   if (headers === DESIGN_HEADERS) {
     renameHeaders_(sheet);
+    ensureDesignHeaderLayout_(sheet);
+    return;
   }
 
   const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1)).getValues()[0];
@@ -254,6 +256,34 @@ function ensureHeaders_(sheet, headers) {
     sheet.getRange(1, existingHeaders.length + 1, 1, missingHeaders.length).setValues([missingHeaders]);
     sheet.autoResizeColumns(1, existingHeaders.length + missingHeaders.length);
   }
+}
+
+function ensureDesignHeaderLayout_(sheet) {
+  DESIGN_HEADERS.forEach(function(header, index) {
+    const targetColumn = index + 1;
+    let currentHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), targetColumn)).getValues()[0];
+
+    if (currentHeaders[targetColumn - 1] === header) {
+      return;
+    }
+
+    const existingIndex = currentHeaders.indexOf(header);
+
+    if (existingIndex === -1) {
+      sheet.insertColumnBefore(targetColumn);
+      sheet.getRange(1, targetColumn).setValue(header);
+    } else {
+      sheet.moveColumns(sheet.getRange(1, existingIndex + 1, sheet.getMaxRows(), 1), targetColumn);
+    }
+
+    sheet.getRange(1, targetColumn)
+      .setFontWeight("bold")
+      .setBackground("#f7f2ed")
+      .setFontColor("#332c2f");
+  });
+
+  sheet.setFrozenRows(1);
+  sheet.autoResizeColumns(1, DESIGN_HEADERS.length);
 }
 
 function renameHeaders_(sheet) {
