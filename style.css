@@ -1474,6 +1474,7 @@ footer p {
 }
 
 .project-card img {
+  display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
@@ -1498,7 +1499,12 @@ footer p {
   margin: 0;
 }
 
-.projects-page .project-card > div > p:last-child:not(.project-category) {
+.projects-page .project-card {
+  background: transparent;
+  box-shadow: 0 6px 18px rgba(69, 52, 58, 0.06);
+}
+
+.projects-page .project-card > div {
   display: none;
 }
 
