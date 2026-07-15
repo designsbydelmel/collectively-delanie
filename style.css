@@ -1476,10 +1476,12 @@ footer p {
 .project-card img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
+  padding: 8px;
+  box-sizing: border-box;
   object-fit: contain;
   object-position: center;
-  background: var(--cream);
+  background: linear-gradient(145deg, #fbf8f5, var(--cream));
 }
 
 .project-card > div {
