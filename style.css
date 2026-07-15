@@ -1394,6 +1394,10 @@ footer p {
   padding: 110px clamp(24px, 7vw, 130px);
 }
 
+.projects-page .project-showcase {
+  padding-top: 70px;
+}
+
 .gallery-filters {
   display: flex;
   flex-wrap: wrap;
@@ -1430,16 +1434,15 @@ footer p {
 
 .project-category-carousels {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 28px;
-  margin-top: 34px;
 }
 
 .project-carousel-section {
   display: grid;
   gap: 12px;
   min-width: 0;
-  padding: 20px;
+  padding: clamp(20px, 2.5vw, 34px);
   border: 1px solid rgba(181, 155, 166, 0.16);
   border-radius: 18px;
   background: rgba(245, 247, 246, 0.62);
@@ -1468,7 +1471,7 @@ footer p {
 
 .project-carousel {
   display: grid;
-  grid-auto-columns: clamp(180px, 20vw, 230px);
+  grid-auto-columns: clamp(280px, 24vw, 360px);
   grid-auto-flow: column;
   gap: 14px;
   overflow-x: auto;
@@ -1614,7 +1617,7 @@ footer p {
   }
 
   .project-carousel {
-    grid-auto-columns: clamp(180px, 58vw, 230px);
+    grid-auto-columns: clamp(250px, 76vw, 320px);
   }
 
   .site-header {
@@ -1894,6 +1897,10 @@ footer p {
   .project-showcase,
   .reviews-section {
     padding: 80px 20px;
+  }
+
+  .projects-page .project-showcase {
+    padding-top: 50px;
   }
 
   .page-cta,
