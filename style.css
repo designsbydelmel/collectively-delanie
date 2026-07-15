@@ -1507,6 +1507,23 @@ footer p {
   box-shadow: 0 6px 18px rgba(69, 52, 58, 0.06);
 }
 
+.projects-page .project-card img {
+  transition: transform 320ms ease;
+  will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .projects-page .project-card:hover img {
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-page .project-card img {
+    transition: none;
+  }
+}
+
 .projects-page .project-card > div {
   display: none;
 }
