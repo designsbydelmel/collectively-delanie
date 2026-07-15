@@ -1366,6 +1366,29 @@ footer p {
   margin: 0 auto;
 }
 
+.projects-hero {
+  background:
+    radial-gradient(circle at 85% 20%, rgba(185, 154, 166, 0.28), transparent 27%),
+    radial-gradient(circle at 12% 80%, rgba(94, 121, 117, 0.18), transparent 30%),
+    var(--cream);
+}
+
+.projects-hero > div {
+  grid-template-columns: minmax(340px, 0.95fr) minmax(420px, 1.05fr);
+  gap: clamp(34px, 5vw, 78px);
+}
+
+.projects-hero .order-brand-logo {
+  width: min(100%, 560px);
+  max-height: 390px;
+}
+
+.projects-hero h1 {
+  max-width: 760px;
+  text-align: left;
+  line-height: 1.08;
+}
+
 .project-showcase,
 .reviews-section {
   padding: 110px clamp(24px, 7vw, 130px);
@@ -1573,6 +1596,21 @@ footer p {
 @media (max-width: 900px) {
   .project-category-carousels {
     grid-template-columns: 1fr;
+  }
+
+  .projects-hero > div {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 28px;
+  }
+
+  .projects-hero .order-brand-logo {
+    width: min(100%, 420px);
+    margin: 0 auto;
+  }
+
+  .projects-hero h1 {
+    text-align: center;
   }
 
   .project-carousel {
