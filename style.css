@@ -1477,7 +1477,8 @@ footer p {
   display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   background: var(--cream);
 }
 
