@@ -31,15 +31,24 @@
 }
 
 :root {
-  --ink: #332c2f;
-  --muted: #776b6e;
-  --blush: #b99da6;
-  --rose: #a67f89;
-  --cream: #f7f2ed;
-  --paper: #fffdf9;
-  --sage: #7f9186;
-  --deep-sage: #4e6257;
-  --line: rgba(71, 55, 60, 0.14);
+  /* 2026 Collectively Delanie brand palette */
+  --warm-ivory: #f8f5f0;
+  --soft-linen: #eee7dd;
+  --sandstone: #d6c8b8;
+  --dusty-mauve: #b18d94;
+  --muted-sage: #6b7c71;
+  --deep-olive: #4f5c53;
+  --antique-brass: #b99b61;
+  --warm-charcoal: #312d2b;
+  --ink: var(--warm-charcoal);
+  --muted: #6b625e;
+  --blush: var(--sandstone);
+  --rose: var(--dusty-mauve);
+  --cream: var(--soft-linen);
+  --paper: var(--warm-ivory);
+  --sage: var(--muted-sage);
+  --deep-sage: var(--deep-olive);
+  --line: rgba(79, 92, 83, 0.18);
   --headline: "Cormorant Garamond", Georgia, "Times New Roman", serif;
   --accent: "Brittany Signature", cursive;
   --body: "Montserrat", "Helvetica Neue", Arial, sans-serif;
@@ -88,7 +97,7 @@ a {
   justify-content: space-between;
   min-height: 88px;
   padding: 16px clamp(22px, 5vw, 76px);
-  background: rgba(255, 253, 249, 0.92);
+  background: rgba(248, 245, 240, 0.94);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(16px);
 }
@@ -217,7 +226,7 @@ a {
 
 .button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(53, 42, 46, 0.14);
+  box-shadow: 0 10px 24px rgba(49, 45, 43, 0.14);
 }
 
 .button-primary {
@@ -272,7 +281,7 @@ a {
   place-items: center;
   min-height: 620px;
   padding: 60px;
-  background: linear-gradient(145deg, #d9c9cd, #a5b7ae);
+  background: linear-gradient(145deg, var(--soft-linen), var(--sandstone) 48%, var(--muted-sage));
   overflow: hidden;
 }
 
@@ -295,7 +304,7 @@ a {
   height: 500px;
   top: -160px;
   right: -170px;
-  background: rgba(255, 244, 239, 0.4);
+  background: rgba(248, 245, 240, 0.48);
 }
 
 .orb-two {
@@ -303,7 +312,7 @@ a {
   height: 430px;
   bottom: -150px;
   left: -160px;
-  background: rgba(122, 91, 101, 0.26);
+  background: rgba(177, 141, 148, 0.3);
 }
 
 .hero-logo {
@@ -312,7 +321,7 @@ a {
   display: block;
   width: min(100%, 600px);
   border-radius: 40px;
-  box-shadow: 0 24px 70px rgba(51, 44, 47, 0.2);
+  box-shadow: 0 24px 70px rgba(49, 45, 43, 0.2);
 }
 
 .section-heading h2,
@@ -436,7 +445,7 @@ a {
 .brand-visual {
   display: grid;
   place-items: center;
-  background: #f5eeeb;
+  background: var(--soft-linen);
 }
 
 .brand-visual img {
@@ -477,7 +486,7 @@ a {
   display: grid;
   min-height: 760px;
   padding: clamp(18px, 2.4vw, 34px);
-  background: #eee9e2;
+  background: var(--soft-linen);
   color: var(--deep-sage);
   overflow: hidden;
   place-items: stretch;
@@ -498,7 +507,7 @@ a {
   height: 100%;
   min-height: 692px;
   overflow: hidden;
-  background: #fffaf7;
+  background: var(--warm-ivory);
 }
 
 .carousel-slides,
@@ -521,7 +530,7 @@ a {
   width: 100%;
   height: 100%;
   min-height: 0;
-  background: #fffaf7;
+  background: var(--warm-ivory);
   object-fit: contain;
   object-position: center;
 }
@@ -611,7 +620,7 @@ a {
   max-width: 1380px;
   margin: 40px auto 0;
   padding: clamp(42px, 6vw, 84px);
-  background: #fffaf7;
+  background: var(--warm-ivory);
   border: 1px solid rgba(166, 127, 137, 0.18);
   gap: clamp(38px, 6vw, 80px);
 }
@@ -723,7 +732,7 @@ a {
   gap: 40px;
   margin: 0 clamp(22px, 5vw, 76px) 80px;
   padding: 80px clamp(32px, 7vw, 100px);
-  background: #eadcdf;
+  background: var(--sandstone);
 }
 
 .connect > div {
@@ -775,7 +784,7 @@ footer p {
   display: grid;
   min-height: 520px;
   padding: 70px clamp(24px, 7vw, 110px);
-  background: linear-gradient(135deg, #fffdf9, #eadcdf);
+  background: linear-gradient(135deg, var(--warm-ivory), var(--soft-linen) 55%, var(--sandstone));
   place-items: center;
   text-align: left;
 }
@@ -838,7 +847,7 @@ footer p {
 }
 
 .order-intro .section-kicker {
-  color: #e5bcc6;
+  color: var(--sandstone);
 }
 
 .order-intro h2 {
@@ -868,7 +877,7 @@ footer p {
 }
 
 .order-process span {
-  color: #e5bcc6;
+  color: var(--sandstone);
   font-family: var(--label);
   font-size: 11px;
   font-weight: 600;
@@ -887,7 +896,7 @@ footer p {
 }
 
 .peptide-order-hero {
-  background: linear-gradient(135deg, #fffdf9, #dbe2dc);
+  background: linear-gradient(135deg, var(--warm-ivory), var(--soft-linen) 55%, var(--muted-sage));
 }
 
 .peptide-order-hero > div {
@@ -1063,7 +1072,7 @@ footer p {
   padding: 13px 14px;
   border: 1px solid #d9ceca;
   border-radius: 4px;
-  background: #fffdf9;
+  background: var(--warm-ivory);
   color: var(--ink);
   font: 400 15px/1.5 var(--body);
   outline: none;
@@ -1120,8 +1129,8 @@ footer p {
 
 .font-preview-button:hover,
 .font-preview-button:focus-visible {
-  border-color: #e5bcc6;
-  background: #fff8fa;
+  border-color: var(--dusty-mauve);
+  background: var(--warm-ivory);
 }
 
 .file-upload input[type="file"] {
@@ -1250,7 +1259,7 @@ footer p {
   flex-direction: column;
   min-height: 100vh;
   padding: 0;
-  background: linear-gradient(135deg, var(--cream), #eadcdf);
+  background: linear-gradient(135deg, var(--soft-linen), var(--sandstone));
 }
 
 .thank-you-card {
@@ -1334,8 +1343,8 @@ footer p {
   padding: 70px clamp(24px, 7vw, 120px);
   place-content: center;
   background:
-    radial-gradient(circle at 85% 20%, rgba(185, 154, 166, 0.28), transparent 27%),
-    radial-gradient(circle at 12% 80%, rgba(94, 121, 117, 0.18), transparent 30%),
+    radial-gradient(circle at 85% 20%, rgba(177, 141, 148, 0.28), transparent 27%),
+    radial-gradient(circle at 12% 80%, rgba(107, 124, 113, 0.18), transparent 30%),
     var(--cream);
   text-align: center;
 }
@@ -1368,8 +1377,8 @@ footer p {
 
 .projects-hero {
   background:
-    radial-gradient(circle at 85% 20%, rgba(185, 154, 166, 0.28), transparent 27%),
-    radial-gradient(circle at 12% 80%, rgba(94, 121, 117, 0.18), transparent 30%),
+    radial-gradient(circle at 85% 20%, rgba(177, 141, 148, 0.28), transparent 27%),
+    radial-gradient(circle at 12% 80%, rgba(107, 124, 113, 0.18), transparent 30%),
     var(--cream);
 }
 
@@ -1443,9 +1452,9 @@ footer p {
   gap: 12px;
   min-width: 0;
   padding: clamp(20px, 2.5vw, 34px);
-  border: 1px solid rgba(181, 155, 166, 0.16);
+  border: 1px solid rgba(177, 141, 148, 0.18);
   border-radius: 18px;
-  background: rgba(245, 247, 246, 0.62);
+  background: rgba(248, 245, 240, 0.7);
 }
 
 .carousel-section-heading {
@@ -1478,7 +1487,7 @@ footer p {
   overscroll-behavior-inline: contain;
   scroll-snap-type: inline mandatory;
   padding: 3px 3px 12px;
-  scrollbar-color: var(--rose) rgba(181, 155, 166, 0.16);
+  scrollbar-color: var(--rose) rgba(177, 141, 148, 0.16);
   scrollbar-width: thin;
 }
 
@@ -1490,7 +1499,7 @@ footer p {
 .project-card {
   overflow: hidden;
   background: white;
-  border: 1px solid rgba(181, 155, 166, 0.16);
+  border: 1px solid rgba(177, 141, 148, 0.18);
   border-radius: 14px;
   box-shadow: 0 10px 28px rgba(69, 52, 58, 0.07);
 }
@@ -1507,7 +1516,7 @@ footer p {
   box-sizing: border-box;
   object-fit: contain;
   object-position: center;
-  background: linear-gradient(145deg, #fbf8f5, var(--cream));
+  background: linear-gradient(145deg, var(--warm-ivory), var(--soft-linen));
 }
 
 .project-card > div {
@@ -1912,7 +1921,7 @@ footer p {
 }
 
 .aesthetics-order-hero {
-  background: linear-gradient(135deg, #fffdf9, #f7e2ec 52%, #d7e3e2);
+  background: linear-gradient(135deg, var(--warm-ivory), var(--soft-linen) 52%, var(--sandstone));
 }
 
 .aesthetics-order-hero > div {

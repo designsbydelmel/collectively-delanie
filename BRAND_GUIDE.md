@@ -13,23 +13,22 @@ This file is the working brand reference for future Collectively Delanie website
 - Tagline: One brand. Endless purpose.
 - Instagram / Venmo handle shown in assets: @collectivelydelanie
 
-## Color Palette
+## Color Palette (updated 2026)
 
-Official brand palette:
-
-| Role | Hex | Notes |
-| --- | --- | --- |
-| Dusty Mauve | `#B59BA6` | Logo accent, borders, secondary text |
-| Soft Blush Pink | `#F6DFEC` | Soft backgrounds and highlights |
-| Pale Blue-Gray | `#D3DEDF` | Gentle neutral accent |
-| Muted Sage Green | `#5E7975` | Primary brand green, headings, rules |
-| Soft Off-White | `#F5F7F6` | Background / negative space |
-
-Additional accent visible in Designs by Delanie assets:
+Official brand palette. This supersedes the earlier mauve / blue-gray palette:
 
 | Role | Hex | Notes |
 | --- | --- | --- |
-| Rose gold/copper | `#C97858` | Foil-style line art and decorative accents |
+| Warm Ivory | `#F8F5F0` | Primary page background / negative space |
+| Soft Linen | `#EEE7DD` | Soft section backgrounds |
+| Sandstone | `#D6C8B8` | Warm neutral panels and borders |
+| Dusty Mauve | `#B18D94` | Script accents and highlights |
+| Muted Sage | `#6B7C71` | Secondary green |
+| Deep Olive | `#4F5C53` | Primary brand green, headings, rules |
+| Antique Brass | `#B99B61` | Fine decorative accents |
+| Warm Charcoal | `#312D2B` | Primary text and dark surfaces |
+
+The current palette reference is `brand-assets/CD Color Palette 2026.png`.
 
 ## Typography
 
@@ -52,7 +51,7 @@ Suggested web-safe / web-font direction:
 Primary assets copied into this project:
 
 - `brand-assets/CD Color Palette.png`
-- `brand-assets/logos/CD Logo.png`
+- `brand-assets/logos/CD Logo.png` (current butterfly-and-branch CD mark)
 - `brand-assets/logos/PEPd Logo.png`
 - `brand-assets/logos/DBD Circle Logo.png`
 - `brand-assets/logos/Designs by Delanie LOGO.png`
