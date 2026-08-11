@@ -24,6 +24,11 @@
 }
 
 @font-face {
+    font-family: "Classroom Memories Script";
+    src: url("assets/fonts/ClassroomMemoriesScript.otf");
+}
+
+@font-face {
     font-family: "Daily Calm";
     src: url("assets/fonts/DailyCalm.otf");
 }
@@ -31,6 +36,11 @@
 @font-face {
     font-family: "Family";
     src: url("assets/fonts/Family.otf");
+}
+
+@font-face {
+    font-family: "Easter Heart";
+    src: url("assets/fonts/EasterHeartRegular.otf");
 }
 
 @font-face {
@@ -54,6 +64,11 @@
 }
 
 @font-face {
+    font-family: "Honey";
+    src: url("assets/fonts/Honey.otf");
+}
+
+@font-face {
     font-family: "Ladybug";
     src: url("assets/fonts/Ladybug.otf");
 }
@@ -71,6 +86,16 @@
 @font-face {
     font-family: "Simple Tumbler";
     src: url("assets/fonts/SimpleTumbler.otf");
+}
+
+@font-face {
+    font-family: "Star Bold";
+    src: url("assets/fonts/StarBold.otf");
+}
+
+@font-face {
+    font-family: "Sunlight";
+    src: url("assets/fonts/Sunlight.otf");
 }
 
 @font-face {

@@ -15,7 +15,12 @@ const fonts = [
   "Simple Tumbler",
   "Wild Cake",
   "Kinder Bubble",
-  "Funky Hearts"
+  "Funky Hearts",
+  "Classroom Memories Script",
+  "Easter Heart",
+  "Honey",
+  "Star Bold",
+  "Sunlight"
 ];
 
 const input = document.getElementById("nameInput");
