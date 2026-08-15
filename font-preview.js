@@ -57,11 +57,9 @@ function updatePreviews() {
       <div class="font-number">Font #${number}</div>
       <div class="preview-text" style="font-family:'${font}'">${safeText}</div>
       <div class="divider"></div>
-      <div class="font-name">Font Name: <strong>${font}</strong></div>
       <button class="copy-button" onclick="selectFont('${font}', ${number}, this)">
         ${isSelected ? "✓ Selected" : "Select This Font"}
       </button>
-      <div class="helper-text">Use Font #${number} or “${font}” on your order form.</div>
     `;
 
     previewArea.appendChild(card);
@@ -74,7 +72,7 @@ function selectFont(fontName, number, button) {
   selectedFont = fontName;
   selectedNumber = number;
 
-  navigator.clipboard.writeText(`Font #${number} - ${fontName}`);
+  navigator.clipboard.writeText(`Font #${number}`);
 
   updatePreviews();
 }
@@ -96,8 +94,7 @@ function updateSelectedPreview() {
       <div class="font-number">Font #${selectedNumber}</div>
       <div class="preview-text" style="font-family:'${selectedFont}'">${safeText}</div>
       <div class="divider"></div>
-      <div class="font-name">Font Name: <strong>${selectedFont}</strong></div>
-      <div class="helper-text">Copied: Font #${selectedNumber} - ${selectedFont}</div>
+      <div class="helper-text">Copied: Font #${selectedNumber}</div>
     </div>
   `;
 }
