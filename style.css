@@ -244,6 +244,21 @@ a {
   color: white;
 }
 
+.button-outline {
+  border-color: var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
+
+.design-actions {
+  gap: 14px;
+}
+
+.design-actions .button {
+  width: 200px;
+  text-align: center;
+}
+
 .button-light {
   background: white;
   border-color: white;
