@@ -244,19 +244,25 @@ a {
   color: white;
 }
 
-.button-outline {
-  border-color: var(--ink);
-  background: transparent;
-  color: var(--ink);
-}
-
 .design-actions {
+  align-items: flex-start;
+  flex-direction: column;
   gap: 14px;
 }
 
 .design-actions .button {
-  width: 200px;
+  width: 220px;
   text-align: center;
+}
+
+.design-actions .button span {
+  display: inline-block;
+  margin-left: 5px;
+  transition: transform 0.2s ease;
+}
+
+.design-actions .button:hover span {
+  transform: translateX(4px);
 }
 
 .button-light {
