@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="36in" height="18in" viewBox="0 0 3600 1800">
+  <title>Mountains, trees, and bear — 36 by 18 inch four-corner nursery frame</title>
+  <desc>Woodland silhouettes placed only in the four corners, with a large empty center reserved for a name.</desc>
+  <defs>
+    <style>
+      .woodland { fill: #2A2F54; }
+      .snow { fill: #FFFFFF; }
+    </style>
+
+    <g id="pine">
+      <path d="M100 0 48 82h30L30 152h42L16 236h68v44h32v-44h68l-56-84h42l-48-70h30Z"/>
+    </g>
+
+    <g id="small-pine">
+      <path d="M70 0 34 57h21l-33 49h29L12 164h47v31h22v-31h47l-39-58h29L85 57h21Z"/>
+    </g>
+
+    <g id="bear">
+      <circle cx="129" cy="88" r="56"/>
+      <circle cx="88" cy="44" r="23"/>
+      <circle cx="170" cy="44" r="23"/>
+      <path d="M58 116c-26 18-38 55-38 102v70h46l12-66h102l12 66h46v-70c0-47-12-84-38-102-19 17-43 26-71 26s-52-9-71-26Z"/>
+      <path d="M59 207 0 265l29 28 58-54Zm140 0 59 58-29 28-58-54Z"/>
+    </g>
+
+    <clipPath id="top-left-clip"><rect width="940" height="510"/></clipPath>
+    <clipPath id="top-right-clip"><rect x="2660" width="940" height="510"/></clipPath>
+    <clipPath id="bottom-left-clip"><rect y="1240" width="1040" height="560"/></clipPath>
+    <clipPath id="bottom-right-clip"><rect x="2560" y="1240" width="1040" height="560"/></clipPath>
+  </defs>
+
+  <!-- TOP LEFT: mountain ridge and pines -->
+  <g id="top-left" class="woodland" clip-path="url(#top-left-clip)">
+    <path d="M0 0h940v94L790 244 675 129 548 293 406 119 260 275 146 164 0 322Z"/>
+    <path class="snow" d="m790 244-52-52-63 81 32-21 28 15 29-41Zm-242 49-53-65-89 109 46-32 37 18Zm-288-18-49-48-65 72 34-21 29 13Z"/>
+    <use href="#small-pine" transform="translate(34 185) scale(.78)"/>
+    <use href="#pine" transform="translate(730 238) scale(.72)"/>
+    <circle cx="318" cy="67" r="12"/>
+    <path d="m389 42 9 24 24 9-24 9-9 24-9-24-24-9 24-9Z"/>
+  </g>
+
+  <!-- TOP RIGHT: mirrored mountain ridge and pines -->
+  <g id="top-right" class="woodland" clip-path="url(#top-right-clip)">
+    <path d="M3600 0h-940v94l150 150 115-115 127 164 142-174 146 156 114-111 146 158Z"/>
+    <path class="snow" d="m2810 244 52-52 63 81-32-21-28 15-29-41Zm242 49 53-65 89 109-46-32-37 18Zm288-18 49-48 65 72-34-21-29 13Z"/>
+    <use href="#pine" transform="translate(2680 238) scale(.72)"/>
+    <use href="#small-pine" transform="translate(3460 185) scale(.78)"/>
+    <path d="M3244 45a54 54 0 1 0 57 82 66 66 0 1 1-57-82Z"/>
+    <path d="m3175 56 8 21 21 8-21 8-8 21-8-21-21-8 21-8Z"/>
+  </g>
+
+  <!-- BOTTOM LEFT: layered pines and mountain foothills -->
+  <g id="bottom-left" class="woodland" clip-path="url(#bottom-left-clip)">
+    <path d="M0 1800v-122l123-83 105 47 115-116 110 79 132-145 143 137 100-88 212 169v122Z"/>
+    <use href="#pine" transform="translate(12 1287) scale(1.42)"/>
+    <use href="#small-pine" transform="translate(310 1434) scale(1.12)"/>
+    <use href="#pine" transform="translate(716 1374) scale(1.02)"/>
+  </g>
+
+  <!-- BOTTOM RIGHT: bear, layered pines, and mountain foothills -->
+  <g id="bottom-right" class="woodland" clip-path="url(#bottom-right-clip)">
+    <path d="M3600 1800v-122l-123-83-105 47-115-116-110 79-132-145-143 137-100-88-212 169v122Z"/>
+    <use href="#pine" transform="translate(3388 1287) scale(1.42)"/>
+    <use href="#small-pine" transform="translate(3212 1434) scale(1.12)"/>
+    <use href="#pine" transform="translate(2680 1374) scale(1.02)"/>
+    <use href="#bear" transform="translate(2940 1325) scale(.95)"/>
+  </g>
+</svg>
