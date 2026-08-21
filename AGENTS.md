@@ -15,4 +15,4 @@ Important brand anchors:
 
 Never store GitHub secrets, tokens, passwords, SSH private keys, or recovery codes in project files. Use secure local GitHub authentication instead.
 
-After completing and verifying requested project changes, commit and push them to GitHub automatically without waiting for a separate request. Do not push secrets, unrelated user files, or changes that would require overwriting remote work.
+After completing and verifying requested project changes, commit them directly to `main` and push `main` to GitHub automatically without waiting for a separate request. First update from `origin/main` and do not overwrite remote work. Do not commit or push secrets or unrelated user files.
