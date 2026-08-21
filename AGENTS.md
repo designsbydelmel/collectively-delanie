@@ -14,3 +14,5 @@ Important brand anchors:
 - QR/order assets: `brand-assets/qr/` and `brand-assets/order/`
 
 Never store GitHub secrets, tokens, passwords, SSH private keys, or recovery codes in project files. Use secure local GitHub authentication instead.
+
+After completing and verifying requested project changes, commit and push them to GitHub automatically without waiting for a separate request. Do not push secrets, unrelated user files, or changes that would require overwriting remote work.

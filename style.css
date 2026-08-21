@@ -611,12 +611,12 @@ a {
   height: 100%;
   min-height: 0;
   background: var(--warm-ivory);
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 
 .carousel-slide:first-child img {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 
