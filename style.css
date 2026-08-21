@@ -1627,9 +1627,19 @@ footer p {
   will-change: transform;
 }
 
+.projects-page .project-card img.project-image-rotate-up {
+  padding: 0;
+  object-fit: cover;
+  transform: rotate(-90deg) scale(1.01);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .projects-page .project-card:hover img {
     transform: scale(1.3);
+  }
+
+  .projects-page .project-card:hover img.project-image-rotate-up {
+    transform: rotate(-90deg) scale(1.3);
   }
 }
 
