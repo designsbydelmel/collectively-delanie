@@ -1627,6 +1627,12 @@ footer p {
   will-change: transform;
 }
 
+.projects-page .project-card img.project-image-arm-focus {
+  padding: 0;
+  object-fit: cover;
+  object-position: 50% 68%;
+}
+
 .projects-page .project-card img.project-image-rotate-up {
   padding: 0;
   object-fit: cover;
