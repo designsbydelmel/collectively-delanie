@@ -1623,19 +1623,46 @@ footer p {
 }
 
 .projects-page .project-card img {
+  padding: 0;
+  object-fit: cover;
   transition: transform 320ms ease;
   will-change: transform;
 }
 
 .projects-page .project-card img.project-image-arm-focus {
-  padding: 0;
-  object-fit: cover;
   object-position: 50% 68%;
 }
 
+.projects-page .project-card img.project-image-hats-focus {
+  object-position: 50% 36%;
+}
+
+.projects-page .project-card img.project-image-hat-top-focus {
+  object-position: 50% 52%;
+}
+
+.projects-page .project-card img.project-image-hat-angle-focus,
+.projects-page .project-card img.project-image-butterfly-focus {
+  object-position: center;
+}
+
+.projects-page .project-card img.project-image-apparel-focus {
+  object-position: 50% 38%;
+}
+
+.projects-page .project-card img.project-image-sign-focus {
+  object-position: 32% 55%;
+}
+
+.projects-page .project-card img.project-image-bow-holder-focus {
+  object-position: 50% 28%;
+}
+
+.projects-page .project-card img.project-image-board-focus {
+  object-position: 50% 62%;
+}
+
 .projects-page .project-card img.project-image-rotate-up {
-  padding: 0;
-  object-fit: cover;
   transform: rotate(-90deg) scale(1.01);
 }
 
