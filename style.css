@@ -1641,21 +1641,12 @@ footer p {
   object-position: 50% 52%;
 }
 
-.projects-page .project-card img.project-image-hat-angle-focus,
-.projects-page .project-card img.project-image-butterfly-focus {
+.projects-page .project-card img.project-image-hat-angle-focus {
   object-position: center;
 }
 
 .projects-page .project-card img.project-image-apparel-focus {
   object-position: 50% 38%;
-}
-
-.projects-page .project-card img.project-image-sign-focus {
-  object-position: 32% 55%;
-}
-
-.projects-page .project-card img.project-image-bow-holder-focus {
-  object-position: 50% 28%;
 }
 
 .projects-page .project-card img.project-image-board-focus {
