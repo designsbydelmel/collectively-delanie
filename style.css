@@ -1498,7 +1498,7 @@ footer p {
 .past-project-gallery figure {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   min-width: 0;
   margin: 0;
 }
@@ -1515,12 +1515,14 @@ footer p {
 }
 
 .past-project-gallery figcaption {
-  min-height: 2.2em;
+  min-height: 2.9em;
   padding: 0 8px;
-  color: var(--dusty-mauve);
-  font-family: var(--accent);
-  font-size: clamp(24px, 2vw, 32px);
-  line-height: 1.1;
+  color: var(--deep-olive);
+  font-family: var(--body);
+  font-size: clamp(13px, 1.1vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  line-height: 1.45;
   text-align: center;
 }
 
