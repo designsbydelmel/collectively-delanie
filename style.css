@@ -1487,6 +1487,25 @@ footer p {
   padding-top: 70px;
 }
 
+.past-project-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 26px);
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.past-project-gallery img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  object-fit: cover;
+  object-position: center;
+  background: var(--soft-linen);
+  box-shadow: 0 10px 28px rgba(69, 52, 58, 0.08);
+}
+
 .gallery-filters {
   display: flex;
   flex-wrap: wrap;
@@ -1720,6 +1739,10 @@ footer p {
 }
 
 @media (max-width: 900px) {
+  .past-project-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .project-category-carousels {
     grid-template-columns: 1fr;
   }
@@ -1926,6 +1949,14 @@ footer p {
 }
 
 @media (max-width: 560px) {
+  .past-project-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .past-project-gallery img {
+    border-radius: 15px;
+  }
+
   .site-logo img {
     width: 58px;
     height: 58px;
