@@ -81,7 +81,7 @@ function doPost(e) {
 
     const sheet = getOrderSheet_(orderConfig);
 
-    sheet.appendRow(orderConfig.toRow(data));
+    writeOrderToFirstEmptyRow_(sheet, orderConfig.toRow(data));
     formatLatestRow_(sheet, orderConfig);
 
     if (orderConfig.sortByRequestedDate) {
@@ -369,6 +369,20 @@ function getSpreadsheet_() {
   }
 
   return activeSpreadsheet;
+}
+
+function writeOrderToFirstEmptyRow_(sheet, rowValues) {
+  const firstDataRow = 2;
+  const rowsToCheck = Math.max(sheet.getLastRow() - firstDataRow + 1, 1);
+  const dateValues = sheet.getRange(firstDataRow, 1, rowsToCheck, 1).getDisplayValues();
+  const firstEmptyIndex = dateValues.findIndex(function(row) {
+    return !String(row[0] || "").trim();
+  });
+  const targetRow = firstEmptyIndex === -1
+    ? sheet.getLastRow() + 1
+    : firstDataRow + firstEmptyIndex;
+
+  sheet.getRange(targetRow, 1, 1, rowValues.length).setValues([rowValues]);
 }
 
 function normalizeSubmission_(e) {
