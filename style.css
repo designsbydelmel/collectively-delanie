@@ -1488,11 +1488,45 @@ footer p {
 }
 
 .past-project-gallery {
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.product-category + .product-category {
+  margin-top: clamp(58px, 7vw, 92px);
+}
+
+.product-category h2 {
+  margin: 0 0 24px;
+  color: var(--deep-olive);
+  font-family: var(--display);
+  font-size: clamp(30px, 3vw, 46px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.product-category-row {
+  display: grid;
+  grid-auto-columns: clamp(210px, 22vw, 310px);
+  grid-auto-flow: column;
+  gap: clamp(14px, 1.8vw, 26px);
+  padding: 14px;
+  margin: -14px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline proximity;
+  scrollbar-color: var(--sandstone) transparent;
+  scrollbar-width: thin;
+}
+
+.product-category-row figure {
+  scroll-snap-align: start;
+}
+
+.product-category-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(14px, 1.8vw, 26px);
-  max-width: 1480px;
-  margin: 0 auto;
 }
 
 .past-project-gallery figure {
@@ -1512,6 +1546,26 @@ footer p {
   object-position: center;
   background: var(--soft-linen);
   box-shadow: 0 10px 28px rgba(69, 52, 58, 0.08);
+  transition: transform 260ms ease, box-shadow 260ms ease;
+  transform-origin: center;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .past-project-gallery figure:hover {
+    position: relative;
+    z-index: 2;
+  }
+
+  .past-project-gallery figure:hover img {
+    transform: scale(1.06);
+    box-shadow: 0 20px 45px rgba(69, 52, 58, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .past-project-gallery img {
+    transition: none;
+  }
 }
 
 .past-project-gallery img.project-image-cutting-board {
@@ -1763,7 +1817,7 @@ footer p {
 }
 
 @media (max-width: 900px) {
-  .past-project-gallery {
+  .product-category-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1973,8 +2027,12 @@ footer p {
 }
 
 @media (max-width: 560px) {
-  .past-project-gallery {
+  .product-category-grid {
     grid-template-columns: 1fr;
+  }
+
+  .product-category-row {
+    grid-auto-columns: min(78vw, 330px);
   }
 
   .past-project-gallery img {
