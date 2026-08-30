@@ -13,7 +13,6 @@ const DESIGN_HEADERS = [
   "Name",
   "Email",
   "Phone Number",
-  "Method",
   "Description",
   "Font",
   "Due By",
@@ -29,7 +28,6 @@ const DESIGN_HEADER_RENAMES = {
   "status": "Status",
   "Full Name": "Name",
   "Email Address": "Email",
-  "Preferred Contact Method": "Method",
   "Project Description": "Description",
   "Preferred Font Name or Number": "Font",
   "Requested Completion Date": "Due By",
@@ -41,7 +39,6 @@ const DESIGN_HEADER_RENAMES = {
 const DESIGN_HEADER_SOURCES = {
   "Name": "Full Name",
   "Email": "Email Address",
-  "Method": "Preferred Contact Method",
   "Description": "Project Description",
   "Font": "Preferred Font Name or Number",
   "Due By": "Requested Completion Date",
@@ -57,7 +54,6 @@ const PEPTIDE_HEADERS = [
   "Order Type",
   "Full Name",
   "Phone Number",
-  "Preferred Contact Method",
   "Peptides",
   "Goals or Questions",
   "Notes"
@@ -71,7 +67,6 @@ const AESTHETIC_HEADERS = [
   "Full Name",
   "Email Address",
   "Phone Number",
-  "Preferred Contact Method",
   "Aesthetics Interests",
   "Goals or Questions",
   "Notes"
@@ -82,7 +77,7 @@ function doPost(event) {
   const orderConfig = getOrderConfig(payload);
   const sheet = getSheet(orderConfig.sheetName, orderConfig.headers);
   const id = payload.id || Utilities.getUuid();
-  const submittedAt = payload.submittedAt || new Date().toISOString();
+  const submittedAt = payload.submittedAt || Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "M/d/yyyy");
   const photoLinks = saveUploadedPhotosSafely(payload["Inspiration Photos"], id);
   const enrichedPayload = Object.assign({}, payload, {
     "Inspiration Photos": photoLinks,

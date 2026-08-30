@@ -81,17 +81,9 @@ if (year) {
 
 orderForms.forEach((orderForm) => {
   orderForm.addEventListener("submit", async (event) => {
-    const multiContactMethods = orderForm.querySelectorAll('input[name="Preferred Contact Method[]"]');
-    const checkedMultiContactMethods = orderForm.querySelectorAll('input[name="Preferred Contact Method[]"]:checked');
     const actionUrl = orderForm.dataset.actionSource === "site-config"
       ? siteConfig.appsScriptUrl
       : orderForm.action;
-
-    if (multiContactMethods.length > 0 && checkedMultiContactMethods.length === 0) {
-      event.preventDefault();
-      alert("Please select at least one preferred contact method.");
-      return;
-    }
 
     const uploadInputs = Array.from(orderForm.querySelectorAll('input[type="file"]'));
     const totalUploadBytes = uploadInputs.reduce((total, input) => {

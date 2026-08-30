@@ -5,7 +5,7 @@ const AESTHETIC_SHEET_NAME = "Aesthetic Orders";
 const NOTIFICATION_EMAIL = "collectivelydelanie@gmail.com";
 const SPREADSHEET_ID = "1-WfsYXSF2_dHFQo8fxnWhNPxtEQNECKC4tmK66BUSh8";
 const INSPIRATION_PHOTO_FOLDER_ID = "1g28tfoPda3M8o-2rxsNOhGdBjNYZhshQ";
-const REQUESTED_DATE_COLUMN = 9;
+const REQUESTED_DATE_COLUMN = 8;
 const ORDER_STATUS_HEADER = "Status";
 const COMPLETE_STATUSES = ["complete", "completed"];
 
@@ -15,7 +15,6 @@ const DESIGN_HEADERS = [
   "Name",
   "Email",
   "Phone Number",
-  "Method",
   "Description",
   "Font",
   "Due By",
@@ -32,7 +31,6 @@ const DESIGN_HEADER_RENAMES = {
   "Order Status": "Status",
   "Full Name": "Name",
   "Email Address": "Email",
-  "Preferred Contact Method": "Method",
   "Project Description": "Description",
   "Preferred Font Name or Number": "Font",
   "Requested Completion Date": "Due By",
@@ -49,7 +47,6 @@ const PEPTIDE_HEADERS = [
   "Full Name",
   "Email Address",
   "Phone Number",
-  "Preferred Contact Method",
   "Peptides",
   "Goals or Questions",
   "Internal Notes"
@@ -61,7 +58,6 @@ const AESTHETIC_HEADERS = [
   "Full Name",
   "Email Address",
   "Phone Number",
-  "Preferred Contact Method",
   "Aesthetics Interests",
   "Goals or Questions",
   "Internal Notes"
@@ -203,6 +199,7 @@ function setupSheetIfMissing_(sheetName, headers) {
 
   if (sheet) {
     ensureHeaders_(sheet, headers);
+    formatDateSubmittedColumn_(sheet);
     return sheet;
   }
 
@@ -214,6 +211,7 @@ function setupSheetIfMissing_(sheetName, headers) {
     .setBackground("#f7f2ed")
     .setFontColor("#332c2f");
   sheet.autoResizeColumns(1, headers.length);
+  formatDateSubmittedColumn_(sheet);
 
   return sheet;
 }
@@ -237,10 +235,14 @@ function getOrderSheet_(orderConfig) {
     ensureHeaders_(sheet, orderConfig.headers);
   }
 
+  formatDateSubmittedColumn_(sheet);
+
   return sheet;
 }
 
 function ensureHeaders_(sheet, headers) {
+  removeObsoleteContactColumn_(sheet);
+
   if (headers === DESIGN_HEADERS) {
     renameHeaders_(sheet);
     ensureDesignHeaderLayout_(sheet);
@@ -255,6 +257,27 @@ function ensureHeaders_(sheet, headers) {
   if (missingHeaders.length) {
     sheet.getRange(1, existingHeaders.length + 1, 1, missingHeaders.length).setValues([missingHeaders]);
     sheet.autoResizeColumns(1, existingHeaders.length + missingHeaders.length);
+  }
+}
+
+function removeObsoleteContactColumn_(sheet) {
+  if (sheet.getLastRow() === 0) {
+    return;
+  }
+
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const obsoleteHeaders = ["Preferred Contact Method", "Method"];
+
+  for (let index = headers.length - 1; index >= 0; index--) {
+    if (obsoleteHeaders.indexOf(headers[index]) !== -1) {
+      sheet.deleteColumn(index + 1);
+    }
+  }
+}
+
+function formatDateSubmittedColumn_(sheet) {
+  if (sheet.getMaxRows() > 1) {
+    sheet.getRange(2, 1, sheet.getMaxRows() - 1, 1).setNumberFormat("M/d/yyyy");
   }
 }
 
@@ -395,7 +418,6 @@ function normalizeSubmission_(e) {
       "Full Name": jsonData["Full Name"] || "",
       "Email Address": jsonData["Email Address"] || "",
       "Phone Number": jsonData["Phone Number"] || "",
-      "Preferred Contact Method": jsonData["Preferred Contact Method"] || "",
       "Project Description": jsonData["Project Description"] || "",
       "Preferred Font Name or Number": jsonData["Preferred Font Name or Number"] || "",
       "Requested Completion Date": jsonData["Requested Completion Date"] || "",
@@ -417,7 +439,6 @@ function normalizeSubmission_(e) {
     "Full Name": value_(parameters, "Full Name"),
     "Email Address": value_(parameters, "Email Address"),
     "Phone Number": value_(parameters, "Phone Number"),
-    "Preferred Contact Method": listValue_(multiParameters, parameters, "Preferred Contact Method[]") || value_(parameters, "Preferred Contact Method"),
     "Project Description": value_(parameters, "Project Description"),
     "Preferred Font Name or Number": value_(parameters, "Preferred Font Name or Number"),
     "Requested Completion Date": value_(parameters, "Requested Completion Date"),
@@ -512,7 +533,6 @@ function getDesignOrderConfig_() {
         data["Full Name"],
         data["Email Address"],
         data["Phone Number"],
-        data["Preferred Contact Method"],
         data["Project Description"],
         data["Preferred Font Name or Number"],
         data["Requested Completion Date"],
@@ -592,7 +612,6 @@ function getPeptideOrderConfig_() {
         data["Full Name"],
         data["Email Address"],
         data["Phone Number"],
-        data["Preferred Contact Method"],
         data["Peptides"],
         data["Goals or Questions"],
         ""
@@ -615,7 +634,6 @@ function getAestheticOrderConfig_() {
         data["Full Name"],
         data["Email Address"],
         data["Phone Number"],
-        data["Preferred Contact Method"],
         data["Aesthetics Interests"],
         data["Goals or Questions"],
         ""
@@ -692,7 +710,6 @@ function valueForNotification_(data, header) {
   const sourceByHeader = {
     "Name": "Full Name",
     "Email": "Email Address",
-    "Method": "Preferred Contact Method",
     "Description": "Project Description",
     "Font": "Preferred Font Name or Number",
     "Due By": "Requested Completion Date",
