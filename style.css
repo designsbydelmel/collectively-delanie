@@ -1518,6 +1518,10 @@ footer p {
   object-position: center 75%;
 }
 
+.past-project-gallery img.project-image-contained {
+  object-fit: contain;
+}
+
 .past-project-gallery figcaption {
   min-height: 2.9em;
   padding: 0 8px;
