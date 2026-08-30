@@ -261,23 +261,35 @@ function ensureHeaders_(sheet, headers) {
 }
 
 function removeObsoleteContactColumn_(sheet) {
-  if (sheet.getLastRow() === 0) {
-    return;
-  }
+  try {
+    if (sheet.getLastRow() === 0) {
+      return;
+    }
 
-  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-  const obsoleteHeaders = ["Preferred Contact Method", "Method"];
+    const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    const obsoleteHeaders = ["Preferred Contact Method", "Method"];
 
-  for (let index = headers.length - 1; index >= 0; index--) {
-    if (obsoleteHeaders.indexOf(headers[index]) !== -1) {
-      sheet.deleteColumn(index + 1);
+    for (let index = headers.length - 1; index >= 0; index--) {
+      if (obsoleteHeaders.indexOf(headers[index]) !== -1) {
+        sheet.deleteColumn(index + 1);
+      }
+    }
+  } catch (error) {
+    if (String(error).indexOf("typed column") === -1) {
+      throw error;
     }
   }
 }
 
 function formatDateSubmittedColumn_(sheet) {
   if (sheet.getMaxRows() > 1) {
-    sheet.getRange(2, 1, sheet.getMaxRows() - 1, 1).setNumberFormat("M/d/yyyy");
+    try {
+      sheet.getRange(2, 1, sheet.getMaxRows() - 1, 1).setNumberFormat("M/d/yyyy");
+    } catch (error) {
+      if (String(error).indexOf("typed column") === -1) {
+        throw error;
+      }
+    }
   }
 }
 
