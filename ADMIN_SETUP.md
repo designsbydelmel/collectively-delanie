@@ -1,3 +1,5 @@
+> Legacy setup: the live order form uses `Code.gs`, which saves orders and sends notifications directly. Do not replace the production script with `google-apps-script.js`; the instructions below describe the older dashboard integration. See `README.md` for the current form workflow.
+
 # Admin Dashboard Google Sheets Setup
 
 This setup lets the custom order form keep sending the normal FormSubmit email while also saving text responses into a private Google Sheet for `admin.html`.

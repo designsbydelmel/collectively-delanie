@@ -114,11 +114,19 @@ orderForms.forEach((orderForm) => {
     try {
       const payload = await formDataToUrlSearchParams(orderForm);
 
-      await fetch(actionUrl, {
+      payload.set("response_format", "json");
+      const response = await fetch(actionUrl, {
         method: "POST",
-        mode: "no-cors",
+        mode: "cors",
         body: payload,
       });
+
+      if (!response.ok) throw new Error("Submission request failed.");
+      const result = await response.json();
+      if (result.ok !== true) throw new Error(result.error || "Order was not saved.");
+      if (result.photoUploadFailed) {
+        alert("Your order was saved, but your photos could not be uploaded. Please email your inspiration photos to collectivelydelanie@gmail.com. You do not need to submit another order.");
+      }
 
       window.location.href = orderForm.dataset.thankYou || "order-thank-you.html";
     } catch (error) {
@@ -127,13 +135,14 @@ orderForms.forEach((orderForm) => {
         submitButton.textContent = originalButtonText;
       }
 
-      alert("There was an issue submitting your order. Please try again or email collectivelydelanie@gmail.com.");
+      alert("We could not confirm your submission. Please email collectivelydelanie@gmail.com to check whether your order arrived before submitting again.");
     }
   });
 });
 
 if (requestedDate) {
-  requestedDate.min = new Date().toISOString().split("T")[0];
+  const today = new Date();
+  requestedDate.min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
 }
 
 if (photoInput && fileStatus) {

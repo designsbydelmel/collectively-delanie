@@ -21,9 +21,13 @@ The custom order page sends submissions to the Google Apps Script order tracker:
 
 The Apps Script saves Design, Peptide, and Aesthetics submissions into the Google Sheet and sends email notifications to `collectivelydelanie@gmail.com`.
 
-Photo uploads are not connected to Google Drive yet. The form currently asks customers to paste shareable inspiration links instead.
+Design orders support inspiration photo uploads (10 MB combined) to the configured Google Drive folder, plus shareable inspiration links. A failed photo upload is reported to the customer after the order is saved.
 
-The website JavaScript submits the form to Apps Script in the background, then redirects customers to `order-thank-you.html`.
+The website requests a JSON confirmation from Apps Script and redirects to the appropriate thank-you page only after `ok: true`. Unconfirmed submissions stay on the form with a message to contact Delanie before retrying.
+
+`Code.gs` is the production Apps Script source. Deploy backend changes to the existing web-app deployment before publishing dependent website changes. `google-apps-script.js` is the legacy admin-dashboard implementation, not the production order receiver.
+
+Regression checks: `node tests/order-submission.cjs`.
 
 ## Google Sheet order tracker
 

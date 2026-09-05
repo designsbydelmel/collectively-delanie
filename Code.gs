@@ -65,43 +65,66 @@ const AESTHETIC_HEADERS = [
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
-  lock.waitLock(30000);
+  const wantsJson = Boolean(e && e.parameter && e.parameter.response_format === "json");
+  let saved = false;
+  let orderConfig;
+  let photoUploadFailed = false;
 
   try {
+    lock.waitLock(30000);
     const data = normalizeSubmission_(e);
-    const orderConfig = getOrderConfig_(data);
+    orderConfig = getOrderConfig_(data);
 
+    if (!String(data["Full Name"]).trim() || !String(data["Phone Number"]).trim()) {
+      throw new Error("Name and phone number are required.");
+    }
     if (orderConfig.label === "Custom Order") {
+      if (!data["Email Address"] || !String(data["Project Description"]).trim() || !data["Requested Completion Date"] || !data["Rush Order"]) {
+        throw new Error("Please complete all required design-order fields.");
+      }
       data["Inspiration Photos"] = saveUploadedPhotosSafely_(data["Inspiration Photos"], data["Full Name"]);
+      photoUploadFailed = data["Inspiration Photos"].indexOf("Photo upload failed.") === 0;
     }
 
     const sheet = getOrderSheet_(orderConfig);
-
     writeOrderToFirstEmptyRow_(sheet, orderConfig.toRow(data));
+    saved = true;
     formatLatestRow_(sheet, orderConfig);
-
     if (orderConfig.sortByRequestedDate) {
       sortOrdersByRequestedDate_(sheet, orderConfig);
     }
-
     sendNotification_(data, orderConfig);
-
-    return HtmlService.createHtmlOutput(
-      '<script>window.top.location.href="' + orderConfig.thankYouUrl + '";</script>'
-    );
+    return submissionResponse_({ ok: true, photoUploadFailed: photoUploadFailed }, wantsJson, orderConfig);
   } catch (error) {
-    MailApp.sendEmail({
-      to: NOTIFICATION_EMAIL,
-      subject: "Collectively Delanie Order Tracker Error",
-      body: "An order submission could not be saved.\n\nError:\n" + error
-    });
-
-    return HtmlService.createHtmlOutput(
-      "There was an issue submitting the form. Please email collectivelydelanie@gmail.com."
-    );
+    try {
+      MailApp.sendEmail({
+        to: NOTIFICATION_EMAIL,
+        subject: "Collectively Delanie Order Tracker Error",
+        body: (saved ? "An order was saved, but a follow-up step failed." : "An order submission could not be saved.") + "\n\nError:\n" + error
+      });
+    } catch (notificationError) {
+      console.error(String(notificationError));
+    }
+    return submissionResponse_({
+      ok: saved,
+      photoUploadFailed: photoUploadFailed,
+      error: saved ? "" : "Your order could not be saved. Please try again or email collectivelydelanie@gmail.com."
+    }, wantsJson, orderConfig);
   } finally {
-    lock.releaseLock();
+    if (lock.hasLock()) lock.releaseLock();
   }
+}
+
+function submissionResponse_(result, wantsJson, orderConfig) {
+  if (wantsJson) {
+    return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+  }
+  if (result.ok) {
+    return HtmlService.createHtmlOutput(
+      '<p>Your order has been received.</p><p><a target="_top" href="' + orderConfig.thankYouUrl + '">Continue to confirmation</a></p>'
+    );
+  }
+  return HtmlService.createHtmlOutput(result.error);
 }
 
 function setupOrderSheet() {
