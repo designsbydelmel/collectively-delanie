@@ -1515,7 +1515,7 @@ footer p {
 }
 
 .past-project-gallery img.project-image-nursery-sign {
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .past-project-gallery img.project-image-cutting-board {
