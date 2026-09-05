@@ -258,8 +258,7 @@ function getOrderSheet_(orderConfig) {
     ensureHeaders_(sheet, orderConfig.headers);
   }
 
-  formatDateSubmittedColumn_(sheet);
-
+  // Preserve table column formats during order submission.
   return sheet;
 }
 

@@ -30,3 +30,15 @@ async function frontend(response,reject=false) {
  assert.equal((await frontend(null,true)).destination,'');
  console.log('PASS: saved orders, write errors, notification errors, photo failures, confirmed redirects, server errors, invalid responses, and network failures.');
 })();
+// Existing Google Sheets tables own their date formats; intake must not reformat them.
+{
+  const context = vm.createContext({console});
+  vm.runInContext(backend, context);
+  const sheet = {getLastRow:()=>2};
+  Object.assign(context, {
+    getSpreadsheet_:()=>({getSheetByName:()=>sheet}),
+    ensureHeaders_:()=>{},
+    formatDateSubmittedColumn_:()=>{throw Error('Typed table columns reject number formatting');}
+  });
+  assert.equal(context.getOrderSheet_({sheetName:'Custom Orders',headers:[]}),sheet);
+}
