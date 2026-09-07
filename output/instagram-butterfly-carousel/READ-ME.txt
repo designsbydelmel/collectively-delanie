@@ -1,0 +1,21 @@
+COLLECTIVELY DELANIE — BUTTERFLY CAROUSEL
+
+Five portrait slides, 1080 x 1350 pixels (4:5).
+
+EDITABLE VERSION
+Open Collectively-Delanie-Editable-Carousel.pptx in PowerPoint.
+Click any heading, caption, or footer to change its text.
+Use the picture placeholder to insert your photo. If your editor does not expose the picture control, delete the beige placeholder and insert a photo in that space.
+All text and photo areas are separate editable objects. The organic background and butterfly illustration are a single flattened image on each slide.
+
+BLANK BACKGROUNDS
+Use background-01.png through background-05.png in order in your preferred design app. Add your own photos and text above them.
+Keep every background at full size with no extra cropping. Leave the lower butterfly route visible so it connects across swipes.
+The panorama.png file is the continuous 5400 x 1350 master.
+
+BEFORE POSTING
+Replace the sample wording and photo placeholders. Export five portrait PNG or JPG images and upload in numerical order. The supplied blank PNGs contain no sample text.
+
+DESIGN
+Warm ivory plaster, linen folds, subtle botanical shadows, and dusty mauve butterfly line art. Typography: Didot and Avenir Next. Based on BRAND_GUIDE.md and the existing logo and product photography.
+Generated background used the built-in image generation tool. It was resized and cropped as one continuous panorama, then split into five adjacent slices. The source artwork was generated at lower resolution and enlarged for the final 1080 x 1350 exports.
